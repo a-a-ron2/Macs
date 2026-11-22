@@ -32,5 +32,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "0440f034-206",
+  "name": "Biscoff Spread",
+  "base": "g",
+  "per100": {
+   "kcal": 586.667,
+   "fat": 38,
+   "satfat": 7.333,
+   "carbs": 56.667,
+   "sugars": 36.667,
+   "fibre": 0.667,
+   "protein": 2.667,
+   "salt": 0.533
+  },
+  "unit": null,
+  "updated": "2026-11-22"
  }
 ]
