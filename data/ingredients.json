@@ -49,5 +49,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "651906f8-b39",
+  "name": "Tesco plain Naan",
+  "base": "g",
+  "per100": {
+   "kcal": 267,
+   "fat": 5,
+   "satfat": 0.6,
+   "carbs": 45.8,
+   "sugars": 2.8,
+   "fibre": 4.3,
+   "protein": 7.7,
+   "salt": 0.44
+  },
+  "unit": null,
+  "updated": "2026-11-22"
  }
 ]
