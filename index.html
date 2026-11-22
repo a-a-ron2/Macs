@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="theme-color" content="#1b1b19" />
+<meta name="robots" content="noindex" />
+<title>Fuel Log</title>
+<style>
+  :root {
+    --ink: #1b1b19; --paper: #eeece5; --line: #35342f; --card: #232220; --edge: #3a3936;
+    --mute: #6b685f; --soft: #8f8c80; --dim: #a7a49a;
+    --steel: #4f6d7a; --steel-dim: #6f8b96; --rust: #a8563a; --gold: #b6862c; --sage: #7d8f5a;
+    --mono: 'SF Mono', ui-monospace, Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--ink); color: var(--paper); font-family: var(--sans); }
+  body.locked { overflow: hidden; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: calc(16px + env(safe-area-inset-top)) 16px calc(90px + env(safe-area-inset-bottom)); }
+  .header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; gap: 8px; }
+  .header h1 { font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; margin: 0; }
+  .header .actions { display: flex; gap: 6px; }
+  .status { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 14px; overflow-wrap: anywhere; }
+  .status.ok { color: var(--gold); } .status.err { color: var(--rust); }
+  .hidden { display: none !important; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 14px; margin-bottom: 14px; }
+  .panel h2, .sec-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--dim); margin: 0 0 10px; font-weight: 700; }
+  label.f { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--soft); margin: 10px 0 4px; }
+  input, select, textarea { width: 100%; background: var(--ink); border: 1px solid var(--edge); color: var(--paper); font-family: var(--mono); font-size: 16px; padding: 9px 10px; border-radius: 4px; }
+  select { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--soft) 50%), linear-gradient(135deg, var(--soft) 50%, transparent 50%); background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 26px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--steel-dim); }
+  input[type=checkbox] { width: auto; }
+  .hint { font-size: 12px; color: var(--mute); margin-top: 6px; line-height: 1.5; }
+  .hint a { color: var(--steel-dim); }
+  .err-text { color: var(--rust); font-family: var(--mono); font-size: 12px; margin-top: 8px; min-height: 14px; }
+
+  .btn { font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 9px 12px; border-radius: 4px; cursor: pointer; border: 1px solid var(--edge); background: transparent; color: var(--dim); }
+  .btn.sm { font-size: 12px; padding: 6px 10px; }
+  .btn.primary { background: var(--steel); border-color: var(--steel); color: var(--ink); }
+  .btn.gold { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .btn.danger { color: var(--rust); border-color: rgba(168,86,58,0.5); }
+  .btn.block { width: 100%; }
+  .btn:disabled { opacity: 0.5; }
+  .btnrow { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .btnrow > .btn { flex: 1; }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; }
+  .tab { flex: 1; padding: 9px 6px; border-radius: 3px; border: 1px solid var(--edge); background: transparent; color: var(--dim); font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; }
+  .tab.active { background: var(--steel); border-color: var(--steel); color: var(--ink); }
+
+  .datebar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+  .datebar .btn { padding: 8px 12px; }
+  .datebar input { flex: 1; text-align: center; font-size: 15px; }
+
+  .totals .big { display: flex; align-items: baseline; justify-content: space-between; }
+  .totals .kcal { font-family: var(--mono); font-size: 30px; font-weight: 700; }
+  .totals .kcal small { font-size: 13px; color: var(--soft); font-weight: 400; }
+  .bar { height: 5px; background: var(--ink); border-radius: 3px; overflow: hidden; margin: 8px 0 12px; }
+  .bar > i { display: block; height: 100%; background: var(--gold); }
+  .bar > i.over { background: var(--rust); }
+  .macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .macro { background: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 7px 6px; text-align: center; }
+  .macro b { display: block; font-family: var(--mono); font-size: 15px; }
+  .macro span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--soft); }
+  .macro em { display: block; font-style: normal; font-family: var(--mono); font-size: 10px; color: var(--mute); margin-top: 2px; }
+  .minor { font-family: var(--mono); font-size: 11px; color: var(--soft); margin-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 4px; margin-bottom: 10px; overflow: hidden; }
+  .card-head { padding: 11px 13px; display: flex; justify-content: space-between; align-items: center; gap: 10px; cursor: pointer; }
+  .card-title { font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+  .card-sub { font-family: var(--mono); font-size: 11px; color: var(--soft); margin-top: 2px; }
+  .pill { font-family: var(--mono); font-size: 11px; padding: 3px 7px; border-radius: 2px; white-space: nowrap; background: rgba(182,134,44,0.15); color: var(--gold); border: 1px solid rgba(182,134,44,0.4); }
+  .pill.steel { background: rgba(79,109,122,0.18); color: var(--steel-dim); border-color: rgba(79,109,122,0.45); }
+  .card-body { padding: 0 13px 12px; border-top: 1px solid var(--line); }
+  .li { display: flex; justify-content: space-between; gap: 10px; font-family: var(--mono); font-size: 12px; padding: 5px 0; color: var(--dim); border-bottom: 1px dashed var(--line); }
+  .li:last-of-type { border-bottom: none; }
+  .li .d { color: var(--mute); white-space: nowrap; }
+  .empty { font-family: var(--mono); font-size: 12px; color: var(--mute); padding: 6px 0; }
+  .slot-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mute); margin: 14px 0 6px; }
+
+  .fab { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(14px + env(safe-area-inset-bottom)); width: min(528px, calc(100% - 32px)); padding: 14px; background: var(--gold); color: var(--ink); border: none; border-radius: 4px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 6px 20px rgba(0,0,0,0.5); z-index: 5; }
+
+  .week { display: flex; gap: 4px; align-items: flex-end; height: 70px; margin-top: 4px; }
+  .week .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; cursor: pointer; }
+  .week .col i { width: 100%; background: var(--steel); border-radius: 2px 2px 0 0; min-height: 2px; }
+  .week .col.sel i { background: var(--gold); }
+  .week .col span { font-family: var(--mono); font-size: 9px; color: var(--mute); margin-top: 3px; }
+  .week-legend { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--mute); margin-top: 6px; }
+
+  .search { margin-bottom: 10px; }
+
+  /* sheet (full-screen editor) */
+  .sheet { position: fixed; inset: 0; background: var(--ink); z-index: 20; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .sheet .wrap { padding-bottom: calc(40px + env(safe-area-inset-bottom)); }
+  .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; position: sticky; top: 0; background: var(--ink); padding: 6px 0 10px; z-index: 2; border-bottom: 1px solid var(--line); }
+  .sheet-head h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { padding: 7px 11px; border-radius: 3px; border: 1px solid var(--edge); background: transparent; color: var(--dim); font-size: 12px; font-weight: 600; cursor: pointer; }
+  .chip.active { background: var(--steel); border-color: var(--steel); color: var(--ink); }
+  .row { display: grid; grid-template-columns: 1fr 78px 78px 30px; gap: 6px; align-items: center; margin-bottom: 6px; }
+  .row .rm { background: none; border: none; color: var(--mute); font-size: 18px; cursor: pointer; padding: 0; }
+  .row-meta { grid-column: 1 / -1; font-family: var(--mono); font-size: 11px; color: var(--mute); margin: -2px 0 6px 2px; }
+  .row input, .row select { font-size: 14px; padding: 8px; }
+  .row.gone { opacity: 0.6; }
+  .live { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-top: 10px; line-height: 1.6; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 10px; }
+  .nut-grid { display: grid; grid-template-columns: 1fr 110px; gap: 6px 10px; align-items: center; }
+  .nut-grid label { font-size: 13px; color: var(--dim); }
+  .nut-grid label.sub { padding-left: 14px; color: var(--soft); font-size: 12px; }
+  .nut-grid input { text-align: right; }
+  .preview { width: 100%; max-height: 260px; object-fit: contain; border-radius: 4px; border: 1px solid var(--line); background: #000; display: block; }
+  .progress { height: 4px; background: var(--card); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+  .progress i { display: block; height: 100%; background: var(--steel-dim); transition: width .2s; }
+  details { margin-top: 10px; }
+  details summary { font-size: 11px; color: var(--soft); cursor: pointer; text-transform: uppercase; letter-spacing: 0.06em; }
+  pre.raw { white-space: pre-wrap; font-family: var(--mono); font-size: 11px; color: var(--dim); background: var(--card); border: 1px solid var(--line); border-radius: 4px; padding: 8px; max-height: 220px; overflow: auto; }
+  .seg { display: flex; border: 1px solid var(--edge); border-radius: 4px; overflow: hidden; }
+  .seg button { flex: 1; background: transparent; border: none; color: var(--dim); padding: 9px 6px; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .seg button.active { background: var(--steel); color: var(--ink); }
+  .inline { display: flex; gap: 8px; align-items: center; }
+  .inline > * { flex: 1; }
+  .toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(12px + env(safe-area-inset-top)); background: var(--card); border: 1px solid var(--gold); color: var(--gold); font-family: var(--mono); font-size: 12px; padding: 8px 14px; border-radius: 4px; z-index: 50; max-width: 90vw; text-align: center; }
+  .toast.err { border-color: var(--rust); color: var(--rust); }
+  .spinner { display: inline-block; width: 10px; height: 10px; border: 2px solid var(--mute); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: -1px; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <h1>Fuel Log</h1>
+    <div class="actions">
+      <button class="btn sm hidden" id="settingsBtn" data-act="openSettings">Settings</button>
+    </div>
+  </div>
+  <div class="status" id="status">Locked</div>
+
+  <!-- LOGIN -->
+  <div id="login" class="panel">
+    <h2>Unlock</h2>
+    <div id="repoFields">
+      <label class="f">GitHub username (repo owner)</label>
+      <input id="lgOwner" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="your-burner-account" />
+      <label class="f">Repo name</label>
+      <input id="lgRepo" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="fuel-log" />
+    </div>
+    <div id="repoDetected" class="hint hidden"></div>
+    <label class="f">Access token</label>
+    <input id="lgToken" type="password" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="github_pat_…" />
+    <label class="hint" style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="lgRemember" checked /> Remember on this device</label>
+    <button class="btn primary block" style="margin-top:12px" id="lgBtn" data-act="login">Unlock</button>
+    <div class="err-text" id="lgErr"></div>
+    <div class="hint">Needs a fine-grained token scoped to <b>only this repo</b> with <b>Contents: Read and write</b>. The app checks the token can actually write to the repo before letting you in. The token is kept only in this browser and is sent only to api.github.com.</div>
+  </div>
+
+  <!-- APP -->
+  <div id="app" class="hidden">
+    <div class="tabs">
+      <button class="tab" data-act="tab" data-tab="log">Log</button>
+      <button class="tab" data-act="tab" data-tab="ingredients">Ingredients</button>
+      <button class="tab" data-act="tab" data-tab="meals">Meals</button>
+    </div>
+    <div id="view"></div>
+  </div>
+</div>
+<button class="fab hidden" id="fab"></button>
+<div class="sheet hidden" id="sheet"><div class="wrap" id="sheetInner"></div></div>
+<input type="file" accept="image/*" capture="environment" id="camInput" class="hidden" />
+<input type="file" accept="image/*" id="picInput" class="hidden" />
+
+<script>
+// Nutrition label text parser (works on OCR output). Shared by index.html and tests.
+function parseLabel(raw) {
+  let t = String(raw || "").replace(/\r/g, "");
+  t = t.replace(/(\d),(\d)/g, "$1.$2");                       // 3,5g -> 3.5g
+  t = t.replace(/(\d)[oO]/g, (m, d) => d + "0").replace(/[oO](\d)/g, (m, d) => "0" + d); // O misread as 0
+  t = t.replace(/(^|[\s(\/<])[oO]\.(\d)/g, (m, a, d) => a + "0." + d);   // O.2g -> 0.2g
+  t = t.replace(/(\d)\s*\.\s*(\d)/g, "$1.$2");
+  t = t.replace(/\btrace\b/gi, "0g");
+  const lines = t.split("\n").map(l => l.trim()).filter(Boolean);
+  const low = lines.map(l => l.toLowerCase());
+  const all = low.join("\n");
+
+  function nums(s) {
+    const out = [];
+    const re = /(<\s*)?(\d+(?:\.\d+)?)[ \t]*(kcal|kj|mcg|µg|mg|g|ml|%)?/gi;
+    let m;
+    while ((m = re.exec(s))) {
+      const u = (m[3] || "").toLowerCase();
+      if (u === "%") continue;
+      out.push({ v: parseFloat(m[2]), u });
+    }
+    return out;
+  }
+  const KEYS = /energy|calor|fat|saturat|carb|sugar|fib(re|er)|protein|salt|sodium/;
+  function find(keyRe, excludeRe) {
+    for (let i = 0; i < low.length; i++) {
+      const l = low[i];
+      const m = l.match(keyRe);
+      if (!m || (excludeRe && excludeRe.test(l))) continue;
+      let ns = nums(l.slice(m.index + m[0].length));
+      if (!ns.length && i + 1 < low.length && !KEYS.test(low[i + 1])) ns = nums(low[i + 1]);
+      if (ns.length) return ns[0];
+    }
+    return null;
+  }
+  const g = n => (n == null ? null : n.u === "mg" ? n.v / 1000 : (n.u === "mcg" || n.u === "µg") ? n.v / 1e6 : n.v);
+
+  // ---- energy (kcal)
+  let kcal = null;
+  let m = all.match(/(\d+(?:\.\d+)?)[ \t]*k[ \t]*ca[l1i]/);
+  if (m) kcal = parseFloat(m[1]);
+  if (kcal == null) {
+    const re = /(\d+(?:\.\d+)?)[ \t]*(?:kj)?[ \t]*[\/|][ \t]*(\d+(?:\.\d+)?)/g; let p;
+    while ((p = re.exec(all))) { const a = +p[1], b = +p[2]; if (b > 0 && a / b > 3.9 && a / b < 4.5) { kcal = b; break; } }
+  }
+  if (kcal == null) { const n = find(/k[ \t]*ca[l1i]/); if (n) kcal = n.v; }
+  if (kcal == null) { m = all.match(/(\d+(?:\.\d+)?)[ \t]*kj/); if (m) kcal = Math.round(parseFloat(m[1]) / 4.184); }
+  if (kcal == null) { const n = find(/calories/, /from fat|a day|diet/); if (n) kcal = n.v; }
+
+  const v = {
+    kcal,
+    fat: g(find(/\bfat\b|^fat|total[ \t]*fat/, /saturat|trans|mono|poly|calories/)),
+    satfat: g(find(/saturate[sd]?|saturat/)),
+    carbs: g(find(/carbohydrate|\bcarbs?\b|total[ \t]*carb/)),
+    sugars: g(find(/sugars?/, /added|alcohol/)),
+    fibre: g(find(/fib(re|er)/)),
+    protein: g(find(/protein/)),
+    salt: g(find(/\bsalt\b/)),
+  };
+  if (v.salt == null) { const s = find(/sodium/); if (s) v.salt = +(g(s) * 2.5).toFixed(2); }
+
+  // ---- basis
+  const per100 = /per[ \t]*100[ \t]*(g|ml)|100[ \t]*(g|ml)/.test(all);
+  let servingG = null;
+  const sl = low.find(l => /serving size/.test(l)) || low.find(l => /per serving|portion|serving/.test(l) && /\d[ \t]*(g|ml)\b/.test(l));
+  if (sl) {
+    const sm = sl.match(/\((\d+(?:\.\d+)?)[ \t]*(g|ml)\)/) || sl.match(/(\d+(?:\.\d+)?)[ \t]*(g|ml)\b/);
+    if (sm) servingG = parseFloat(sm[1]);
+  }
+  const usStyle = /nutrition facts|serving size|amount per serving/.test(all);
+  const basis = per100 ? "100" : (usStyle && servingG) ? "serving" : "100";
+  const unitBase = /100[ \t]*ml|per[ \t]*\d*[ \t]*ml/.test(all) ? "ml" : "g";
+  return { basis, servingG, unitBase, values: v };
+}
+</script>
+<script>
+"use strict";
+// ---------- constants ----------
+const API = "https://api.github.com";
+const DATA_DIR = "data";
+const SLOTS = ["Breakfast", "Lunch", "Dinner", "Snack"];
+const NUT = [
+  ["kcal", "Energy", "kcal", false],
+  ["fat", "Fat", "g", false],
+  ["satfat", "of which saturates", "g", true],
+  ["carbs", "Carbohydrate", "g", false],
+  ["sugars", "of which sugars", "g", true],
+  ["fibre", "Fibre", "g", false],
+  ["protein", "Protein", "g", false],
+  ["salt", "Salt", "g", false],
+];
+const NKEYS = NUT.map(n => n[0]);
+const LS_KEY = "fuellog_cfg";
+
+// ---------- state ----------
+let cfg = null;            // {owner, repo, branch, token}
+const SHA = {};
+const DB = { ingredients: [], meals: [], settings: { targets: {} }, logs: {} };
+let tab = "log";
+let curDate = todayStr();
+let filter = "";
+let ED = null;   // composer state (entry/meal)
+let IED = null;  // ingredient editor state
+let ocrWorker = null;
+
+// ---------- utils ----------
+const $ = id => document.getElementById(id);
+function esc(s) { return String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+function uid() { return (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2)).slice(0, 12); }
+function pad(n) { return String(n).padStart(2, "0"); }
+function dstr(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function todayStr() { return dstr(new Date()); }
+function addDays(s, n) { const [y, m, d] = s.split("-").map(Number); return dstr(new Date(y, m - 1, d + n)); }
+function prettyDate(s) {
+  const [y, m, d] = s.split("-").map(Number);
+  const dt = new Date(y, m - 1, d);
+  const rel = s === todayStr() ? "Today · " : s === addDays(todayStr(), -1) ? "Yesterday · " : "";
+  return rel + dt.toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" });
+}
+function num(v) { const n = parseFloat(String(v).replace(",", ".")); return isFinite(n) ? n : 0; }
+function r1(n) { return Math.round(n * 10) / 10; }
+function fmtN(k, v) { if (v == null || !isFinite(v)) return "—"; return k === "kcal" ? String(Math.round(v)) : k === "salt" ? (Math.round(v * 100) / 100).toString() : r1(v).toString(); }
+function zero() { const o = {}; NKEYS.forEach(k => o[k] = 0); return o; }
+function addN(a, b) { NKEYS.forEach(k => a[k] += (b && b[k]) || 0); return a; }
+function scaleN(per100, g) { const o = {}; NKEYS.forEach(k => o[k] = ((per100 && per100[k]) || 0) * g / 100); return o; }
+function roundN(n) { const o = {}; NKEYS.forEach(k => o[k] = Math.round((n[k] || 0) * 1000) / 1000); return o; }
+function ingById(id) { return DB.ingredients.find(i => i.id === id); }
+function mealById(id) { return DB.meals.find(m => m.id === id); }
+function sortByName(a) { return [...a].sort((x, y) => x.name.localeCompare(y.name, undefined, { sensitivity: "base" })); }
+function setStatus(t, cls) { const s = $("status"); s.textContent = t; s.className = "status" + (cls ? " " + cls : ""); }
+let toastTimer;
+function toast(msg, err) {
+  let t = document.querySelector(".toast"); if (!t) { t = document.createElement("div"); document.body.appendChild(t); }
+  t.className = "toast" + (err ? " err" : ""); t.textContent = msg;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), err ? 4500 : 2200);
+}
+function b64enc(str) { const bytes = new TextEncoder().encode(str); let bin = ""; for (let i = 0; i < bytes.length; i += 0x8000) bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(bin); }
+function b64dec(b64) { const bin = atob(b64.replace(/\s/g, "")); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); }
+
+// ---------- GitHub API ----------
+async function gh(path, opts = {}, token = cfg && cfg.token) {
+  const headers = { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" };
+  if (opts.body) headers["Content-Type"] = "application/json";
+  return fetch(API + path, { cache: "no-store", ...opts, headers });
+}
+const repoPath = () => `/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}`;
+const filePath = p => DATA_DIR + "/" + p;
+
+async function readJSON(p, fallback) {
+  const res = await gh(`${repoPath()}/contents/${filePath(p)}?ref=${encodeURIComponent(cfg.branch)}`);
+  if (res.status === 404) { SHA[p] = null; return structuredClone(fallback); }
+  if (res.status === 401) { lockOut("Token rejected by GitHub (expired or revoked)"); throw new Error("Unauthorised"); }
+  if (!res.ok) throw new Error("GitHub read error " + res.status);
+  const j = await res.json();
+  SHA[p] = j.sha;
+  let text;
+  if (j.content) text = b64dec(j.content);
+  else { // >1MB files: fetch raw blob
+    const b = await gh(`${repoPath()}/git/blobs/${j.sha}`); text = b64dec((await b.json()).content);
+  }
+  try { return JSON.parse(text); } catch { throw new Error("Corrupt JSON in " + p); }
+}
+async function writeJSON(p, data, msg) {
+  const body = { message: msg, content: b64enc(JSON.stringify(data, null, 1) + "\n"), branch: cfg.branch };
+  if (SHA[p]) body.sha = SHA[p];
+  const res = await gh(`${repoPath()}/contents/${filePath(p)}`, { method: "PUT", body: JSON.stringify(body) });
+  if (res.status === 409 || res.status === 422) { const e = new Error("conflict"); e.conflict = true; throw e; }
+  if (res.status === 401) { lockOut("Token rejected by GitHub"); throw new Error("Unauthorised"); }
+  if (res.status === 403 || res.status === 404) throw new Error("This token can't write to the repo (" + res.status + ")");
+  if (!res.ok) throw new Error("GitHub write error " + res.status);
+  const j = await res.json(); SHA[p] = j.content.sha;
+}
+// Always re-read before writing, apply change, retry on conflict.
+async function updateJSON(p, fallback, mutate, msg) {
+  if (!cfg) throw new Error("Not unlocked");
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const data = await readJSON(p, fallback);
+    mutate(data);
+    try { await writeJSON(p, data, msg); return data; }
+    catch (e) { if (!e.conflict || attempt === 2) throw e; await new Promise(r => setTimeout(r, 400)); }
+  }
+}
+
+// ---------- auth ----------
+function detectRepo() {
+  const h = location.hostname;
+  if (!h.endsWith(".github.io")) return null;
+  const owner = h.split(".")[0];
+  const seg = location.pathname.split("/").filter(Boolean)[0];
+  const repo = seg && !seg.includes(".") ? seg : h;
+  return { owner, repo };
+}
+
+async function verifyAndUnlock(owner, repo, token, branchPref) {
+  const tmp = { owner, repo, token };
+  const rp = `/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`;
+  let res;
+  try { res = await gh(rp, {}, token); } catch { throw new Error("Network error — can't reach GitHub"); }
+  if (res.status === 401) throw new Error("GitHub rejected this token (wrong, expired or revoked)");
+  if (res.status === 404 || res.status === 403) throw new Error("This token can't see " + owner + "/" + repo);
+  if (!res.ok) throw new Error("GitHub error " + res.status);
+  const info = await res.json();
+  // Write probe: creating a loose git blob needs Contents write access but changes nothing visible.
+  const probe = await gh(rp + "/git/blobs", { method: "POST", body: JSON.stringify({ content: "fuel-log auth check", encoding: "utf-8" }) }, token);
+  if (probe.status !== 201) throw new Error("Token is valid but has no write access to " + owner + "/" + repo + " — give it Contents: Read and write");
+  tmp.branch = branchPref || "data";
+  cfg = tmp;
+  await ensureBranch(cfg.branch, info.default_branch);
+  return cfg;
+}
+async function ensureBranch(branch, fromBranch) {
+  const r = await gh(`${repoPath()}/git/ref/heads/${encodeURIComponent(branch)}`);
+  if (r.ok) return;
+  if (r.status !== 404) throw new Error("Couldn't check data branch (" + r.status + ")");
+  const base = await gh(`${repoPath()}/git/ref/heads/${encodeURIComponent(fromBranch)}`);
+  if (!base.ok) throw new Error("Couldn't read default branch " + fromBranch);
+  const sha = (await base.json()).object.sha;
+  const c = await gh(`${repoPath()}/git/refs`, { method: "POST", body: JSON.stringify({ ref: "refs/heads/" + branch, sha }) });
+  if (!c.ok && c.status !== 422) throw new Error("Couldn't create data branch (" + c.status + ")");
+}
+
+function saveCfg(remember) {
+  const s = JSON.stringify(cfg);
+  localStorage.removeItem(LS_KEY); sessionStorage.removeItem(LS_KEY);
+  (remember ? localStorage : sessionStorage).setItem(LS_KEY, s);
+}
+function loadCfg() { try { return JSON.parse(localStorage.getItem(LS_KEY) || sessionStorage.getItem(LS_KEY) || "null"); } catch { return null; } }
+function lockOut(msg) {
+  cfg = null;
+  localStorage.removeItem(LS_KEY); sessionStorage.removeItem(LS_KEY);
+  DB.ingredients = []; DB.meals = []; DB.logs = {}; DB.settings = { targets: {} };
+  closeSheet();
+  $("app").classList.add("hidden"); $("fab").classList.add("hidden"); $("settingsBtn").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  $("lgToken").value = "";
+  setStatus(msg || "Locked", msg ? "err" : "");
+}
+
+async function doLogin() {
+  const det = detectRepo();
+  const owner = det ? det.owner : $("lgOwner").value.trim();
+  const repo = det ? det.repo : $("lgRepo").value.trim();
+  const token = $("lgToken").value.trim();
+  $("lgErr").textContent = "";
+  if (!owner || !repo || !token) { $("lgErr").textContent = "Fill in all fields"; return; }
+  const btn = $("lgBtn"); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Checking token…';
+  try {
+    const prev = loadCfg();
+    await verifyAndUnlock(owner, repo, token, prev && prev.owner === owner && prev.repo === repo ? prev.branch : null);
+    saveCfg($("lgRemember").checked);
+    await enterApp();
+  } catch (e) {
+    cfg = null; $("lgErr").textContent = e.message;
+  } finally { btn.disabled = false; btn.textContent = "Unlock"; }
+}
+
+async function enterApp() {
+  $("login").classList.add("hidden");
+  $("app").classList.remove("hidden"); $("settingsBtn").classList.remove("hidden");
+  setStatus("Loading…");
+  try {
+    const [ing, meals, settings] = await Promise.all([
+      readJSON("ingredients.json", []), readJSON("meals.json", []), readJSON("settings.json", { targets: {} }),
+    ]);
+    DB.ingredients = ing; DB.meals = meals; DB.settings = settings; DB.settings.targets = DB.settings.targets || {};
+    await ensureDays(weekDates(curDate));
+    render();
+  } catch (e) { if (cfg) setStatus("Load failed: " + e.message, "err"); }
+}
+
+// ---------- logs ----------
+const monthOf = d => d.slice(0, 7);
+const logPath = m => `log/${m}.json`;
+async function ensureMonth(m, force) {
+  if (DB.logs[m] && !force) return DB.logs[m];
+  DB.logs[m] = await readJSON(logPath(m), {});
+  return DB.logs[m];
+}
+async function ensureDays(dates) { const ms = [...new Set(dates.map(monthOf))]; await Promise.all(ms.map(m => ensureMonth(m))); }
+function dayEntries(d) { const m = DB.logs[monthOf(d)]; return (m && m[d]) || []; }
+function entryTotals(e) { const t = zero(); (e.items || []).forEach(it => addN(t, it.n)); return t; }
+function dayTotals(d) { const t = zero(); dayEntries(d).forEach(e => addN(t, entryTotals(e))); return t; }
+function weekDates(end) { const a = []; for (let i = 6; i >= 0; i--) a.push(addDays(end, -i)); return a; }
+
+// ---------- rendering ----------
+function render() {
+  if (!cfg) return;
+  setStatus(`Unlocked · ${cfg.owner}/${cfg.repo} · ${DB.ingredients.length} ingredients · ${DB.meals.length} meals`, "ok");
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+  const fab = $("fab"); fab.classList.remove("hidden");
+  if (tab === "log") { renderLog(); fab.textContent = "+ Add food to " + (curDate === todayStr() ? "today" : prettyDate(curDate)); fab.dataset.act = "newEntry"; }
+  if (tab === "ingredients") { renderIngredients(); fab.textContent = "📷  Scan a nutrition label"; fab.dataset.act = "scan"; }
+  if (tab === "meals") { renderMeals(); fab.textContent = "+ New saved meal"; fab.dataset.act = "newMeal"; }
+}
+
+function macroBox(label, k, v, target) {
+  const sub = target ? `<em>/ ${fmtN(k, target)}</em>` : "";
+  return `<div class="macro"><b>${fmtN(k, v)}</b><span>${label}</span>${sub}</div>`;
+}
+
+function renderLog() {
+  const T = DB.settings.targets || {};
+  const tot = dayTotals(curDate);
+  const entries = dayEntries(curDate).slice().sort((a, b) => (SLOTS.indexOf(a.slot) + 1 || 9) - (SLOTS.indexOf(b.slot) + 1 || 9) || (a.time || "").localeCompare(b.time || ""));
+  const pct = T.kcal ? Math.min(100, tot.kcal / T.kcal * 100) : 0;
+  let h = `<div class="datebar">
+      <button class="btn" data-act="day" data-d="-1">‹</button>
+      <input type="date" id="datePick" value="${curDate}" />
+      <button class="btn" data-act="day" data-d="1">›</button>
+      ${curDate !== todayStr() ? '<button class="btn sm" data-act="today">Today</button>' : ""}
+    </div>
+    <div class="panel totals">
+      <div class="big"><div class="kcal">${fmtN("kcal", tot.kcal)} <small>kcal${T.kcal ? " / " + T.kcal : ""}</small></div>
+      <div class="card-sub">${prettyDate(curDate)}</div></div>
+      ${T.kcal ? `<div class="bar"><i class="${tot.kcal > T.kcal ? "over" : ""}" style="width:${pct}%"></i></div>` : '<div style="height:10px"></div>'}
+      <div class="macros">
+        ${macroBox("Protein", "protein", tot.protein, T.protein)}
+        ${macroBox("Carbs", "carbs", tot.carbs, T.carbs)}
+        ${macroBox("Fat", "fat", tot.fat, T.fat)}
+        ${macroBox("Fibre", "fibre", tot.fibre, T.fibre)}
+      </div>
+      <div class="minor"><span>sugars ${fmtN("sugars", tot.sugars)}g</span><span>sat fat ${fmtN("satfat", tot.satfat)}g</span><span>salt ${fmtN("salt", tot.salt)}g</span></div>
+    </div>`;
+  if (!entries.length) h += `<div class="empty" style="text-align:center;padding:18px 0">Nothing logged for this day yet.</div>`;
+  let lastSlot = null;
+  entries.forEach(e => {
+    if (e.slot !== lastSlot) { h += `<div class="slot-label">${esc(e.slot)}</div>`; lastSlot = e.slot; }
+    const t = entryTotals(e);
+    const title = e.title || (e.items || []).map(i => i.name).slice(0, 3).join(", ") + ((e.items || []).length > 3 ? "…" : "");
+    h += `<div class="card"><div class="card-head" data-act="toggle">
+        <div><div class="card-title">${esc(title || "Entry")}</div>
+        <div class="card-sub">P ${fmtN("protein", t.protein)} · C ${fmtN("carbs", t.carbs)} · F ${fmtN("fat", t.fat)}${e.time ? " · " + esc(e.time) : ""}</div></div>
+        <div class="pill">${fmtN("kcal", t.kcal)} kcal</div></div>
+      <div class="card-body hidden">
+        ${(e.items || []).map(i => `<div class="li"><span>${esc(i.name)}</span><span class="d">${esc(i.label || r1(i.g) + "g")} · ${fmtN("kcal", i.n && i.n.kcal)} kcal</span></div>`).join("")}
+        <div class="btnrow">
+          <button class="btn sm" data-act="editEntry" data-id="${e.id}">Edit</button>
+          <button class="btn sm" data-act="entryToMeal" data-id="${e.id}">Save as meal</button>
+          <button class="btn sm danger" data-act="delEntry" data-id="${e.id}">Delete</button>
+        </div>
+      </div></div>`;
+  });
+  // week strip
+  const wk = weekDates(curDate).map(d => ({ d, k: dayTotals(d).kcal }));
+  const max = Math.max(T.kcal || 0, ...wk.map(w => w.k), 1);
+  const logged = wk.filter(w => w.k > 0);
+  const avg = logged.length ? logged.reduce((a, w) => a + w.k, 0) / logged.length : 0;
+  h += `<div class="panel" style="margin-top:16px"><h2>Last 7 days</h2>
+    <div class="week">${wk.map(w => `<div class="col ${w.d === curDate ? "sel" : ""}" data-act="goto" data-date="${w.d}"><i style="height:${Math.max(2, w.k / max * 100)}%"></i><span>${"SMTWTFS"[new Date(w.d + "T12:00").getDay()]}</span></div>`).join("")}</div>
+    <div class="week-legend"><span>avg ${Math.round(avg)} kcal (${logged.length} days logged)</span><span>max ${Math.round(Math.max(...wk.map(w => w.k)))}</span></div></div>`;
+  $("view").innerHTML = h;
+  $("datePick").onchange = e => { if (e.target.value) gotoDate(e.target.value); };
+}
+
+function per100Line(i) { const p = i.per100 || {}; return `${fmtN("kcal", p.kcal)} kcal · P ${fmtN("protein", p.protein)} · C ${fmtN("carbs", p.carbs)} · F ${fmtN("fat", p.fat)} /100${i.base || "g"}`; }
+
+function renderIngredients() {
+  const list = sortByName(DB.ingredients).filter(i => !filter || i.name.toLowerCase().includes(filter.toLowerCase()));
+  let h = `<div class="btnrow" style="margin-top:0;margin-bottom:12px">
+      <button class="btn" data-act="scanLib">Photo from library</button>
+      <button class="btn" data-act="newIng">Add manually</button></div>
+    <input class="search" id="searchBox" placeholder="Search ${DB.ingredients.length} ingredients…" value="${esc(filter)}" />`;
+  if (!list.length) h += `<div class="empty">${DB.ingredients.length ? "No matches." : "No ingredients yet. Scan the nutrition label on the back of something you cook with."}</div>`;
+  list.forEach(i => {
+    h += `<div class="card"><div class="card-head" data-act="editIng" data-id="${i.id}">
+      <div><div class="card-title">${esc(i.name)}</div><div class="card-sub">${per100Line(i)}${i.unit ? ` · 1 ${esc(i.unit.name)} = ${i.unit.g}${i.base || "g"}` : ""}</div></div>
+      <div class="pill steel">edit</div></div></div>`;
+  });
+  $("view").innerHTML = h;
+  const sb = $("searchBox");
+  sb.oninput = e => { filter = e.target.value; const pos = sb.selectionStart; renderIngredients(); const n = $("searchBox"); n.focus(); n.setSelectionRange(pos, pos); };
+}
+
+function mealTotals(m, portion = 1) {
+  const t = zero();
+  (m.items || []).forEach(it => { const ing = ingById(it.ing); if (ing) addN(t, scaleN(ing.per100, it.g * portion)); });
+  return t;
+}
+function renderMeals() {
+  let h = "";
+  if (!DB.meals.length) h += `<div class="empty">No saved meals yet. Build one here, or log ingredients for a day and tap “Save as meal”.</div>`;
+  sortByName(DB.meals).forEach(m => {
+    const t = mealTotals(m);
+    const missing = (m.items || []).filter(it => !ingById(it.ing)).length;
+    h += `<div class="card"><div class="card-head" data-act="toggle">
+      <div><div class="card-title">${esc(m.name)}</div><div class="card-sub">${(m.items || []).length} ingredients · P ${fmtN("protein", t.protein)} · C ${fmtN("carbs", t.carbs)} · F ${fmtN("fat", t.fat)}${missing ? ` · <span style="color:var(--rust)">${missing} deleted</span>` : ""}</div></div>
+      <div class="pill">${fmtN("kcal", t.kcal)} kcal</div></div>
+      <div class="card-body hidden">
+        ${(m.items || []).map(it => { const ing = ingById(it.ing); return `<div class="li"><span>${esc(ing ? ing.name : (it.name || "?") + " (deleted)")}</span><span class="d">${esc(itemLabel(ing, it.g, it.mode, it.qty))}${ing ? " · " + fmtN("kcal", scaleN(ing.per100, it.g).kcal) + " kcal" : ""}</span></div>`; }).join("")}
+        <div class="btnrow">
+          <button class="btn sm gold" data-act="logMeal" data-id="${m.id}">Log for ${curDate === todayStr() ? "today" : esc(curDate)}</button>
+          <button class="btn sm" data-act="editMeal" data-id="${m.id}">Edit</button>
+          <button class="btn sm danger" data-act="delMeal" data-id="${m.id}">Delete</button>
+        </div></div></div>`;
+  });
+  $("view").innerHTML = h;
+}
+
+// ---------- sheet ----------
+function openSheet(html) { $("sheetInner").innerHTML = html; $("sheet").classList.remove("hidden"); $("sheet").scrollTop = 0; document.body.classList.add("locked"); }
+function closeSheet() { $("sheet").classList.add("hidden"); $("sheetInner").innerHTML = ""; document.body.classList.remove("locked"); ED = null; IED = null; }
+
+// ---------- composer (entry + meal) ----------
+function itemLabel(ing, g, mode, qty) {
+  if (mode === "unit" && ing && ing.unit) return `${r1(qty)} ${ing.unit.name}${qty == 1 ? "" : "s"}`;
+  return `${r1(g)}${(ing && ing.base) || "g"}`;
+}
+function rowGrams(r) { const ing = ingById(r.ing); if (!ing) return 0; return r.mode === "unit" && ing.unit ? num(r.qty) * ing.unit.g : num(r.qty); }
+function rowN(r) { if (r.snap) return r.snap.n; const ing = ingById(r.ing); return ing ? scaleN(ing.per100, rowGrams(r)) : zero(); }
+function defaultSlot() { const h = new Date().getHours(); return h < 11 ? "Breakfast" : h < 15 ? "Lunch" : h < 17 ? "Snack" : "Dinner"; }
+function newRow(ingId) { const ing = ingById(ingId); return { key: uid(), ing: ingId || "", qty: ing && ing.unit ? 1 : 100, mode: ing && ing.unit ? "unit" : "g" }; }
+function rowsFromMeal(m, portion) {
+  const rows = []; let skipped = 0;
+  (m.items || []).forEach(it => {
+    if (!ingById(it.ing)) { skipped++; return; }
+    const mode = it.mode === "unit" && ingById(it.ing).unit ? "unit" : "g";
+    rows.push({ key: uid(), ing: it.ing, mode, qty: mode === "unit" ? r1((it.qty || 1) * portion) : r1(it.g * portion) });
+  });
+  if (skipped) toast(skipped + " ingredient(s) in that meal were deleted and were skipped", true);
+  return rows;
+}
+
+function openComposer(kind, opts = {}) {
+  ED = { kind, id: opts.id || null, slot: opts.slot || defaultSlot(), title: opts.title || "", name: opts.name || "", rows: opts.rows || [], date: opts.date || curDate, mealId: opts.mealId || null, time: opts.time || null, saving: false };
+  if (!ED.rows.length) ED.rows.push(newRow());
+  renderComposer();
+}
+function ingOptions(sel) {
+  return `<option value="">Choose ingredient…</option>` + sortByName(DB.ingredients).map(i => `<option value="${i.id}" ${i.id === sel ? "selected" : ""}>${esc(i.name)}</option>`).join("") + `<option value="__new">+ New ingredient…</option>`;
+}
+function rowHTML(r, idx) {
+  if (r.snap) {
+    return `<div class="row gone" data-row="${idx}"><input value="${esc(r.snap.name)} (deleted)" disabled /><input value="${esc(r.snap.label || r1(r.snap.g) + "g")}" disabled /><span></span><button class="rm" data-act="rmRow" data-i="${idx}">×</button>
+      <div class="row-meta">${fmtN("kcal", r.snap.n.kcal)} kcal · ingredient no longer exists, kept as logged</div></div>`;
+  }
+  const ing = ingById(r.ing);
+  const n = rowN(r);
+  const unitOpts = ing ? `<option value="g" ${r.mode !== "unit" ? "selected" : ""}>${ing.base || "g"}</option>${ing.unit ? `<option value="unit" ${r.mode === "unit" ? "selected" : ""}>${esc(ing.unit.name)}</option>` : ""}` : `<option>g</option>`;
+  return `<div class="row" data-row="${idx}">
+    <select data-bind="ing" data-i="${idx}">${ingOptions(r.ing)}</select>
+    <input type="number" inputmode="decimal" step="any" min="0" data-bind="qty" data-i="${idx}" value="${esc(r.qty)}" />
+    <select data-bind="mode" data-i="${idx}" ${ing && ing.unit ? "" : "disabled"}>${unitOpts}</select>
+    <button class="rm" data-act="rmRow" data-i="${idx}" aria-label="Remove">×</button>
+    <div class="row-meta" id="rm-${idx}">${ing ? rowMeta(r, n, ing) : ""}</div></div>`;
+}
+function rowMeta(r, n, ing) { return `${fmtN("kcal", n.kcal)} kcal · P ${fmtN("protein", n.protein)} · C ${fmtN("carbs", n.carbs)} · F ${fmtN("fat", n.fat)}${r.mode === "unit" ? ` · ${r1(rowGrams(r))}${ing.base || "g"}` : ""}`; }
+function liveTotals() {
+  const t = zero(); ED.rows.forEach(r => addN(t, rowN(r)));
+  return `Total: <b>${fmtN("kcal", t.kcal)} kcal</b> · P ${fmtN("protein", t.protein)}g · C ${fmtN("carbs", t.carbs)}g · F ${fmtN("fat", t.fat)}g<br>fibre ${fmtN("fibre", t.fibre)}g · sugars ${fmtN("sugars", t.sugars)}g · salt ${fmtN("salt", t.salt)}g`;
+}
+function renderComposer() {
+  const isEntry = ED.kind === "entry";
+  const heading = isEntry ? (ED.id ? "Edit entry" : "Add food") : (ED.id ? "Edit meal" : "New meal");
+  const noIng = !DB.ingredients.length;
+  let h = `<div class="sheet-head"><h2>${heading}</h2><button class="btn sm" data-act="closeSheet">Cancel</button></div>`;
+  if (isEntry) {
+    h += `<div class="card-sub" style="margin-bottom:8px">${prettyDate(ED.date)}</div>
+      <div class="chips">${SLOTS.map(s => `<button class="chip ${ED.slot === s ? "active" : ""}" data-act="slot" data-slot="${s}">${s}</button>`).join("")}</div>
+      <label class="f">Label (optional)</label>
+      <input id="edTitle" placeholder="e.g. Chicken stir fry" value="${esc(ED.title)}" />`;
+    if (DB.meals.length) {
+      h += `<div class="panel" style="margin-top:12px"><h2>Add a saved meal</h2>
+        <div class="inline"><select id="edMeal" style="flex:3"><option value="">Choose meal…</option>${sortByName(DB.meals).map(m => `<option value="${m.id}">${esc(m.name)}</option>`).join("")}</select>
+        <input id="edPortion" type="number" inputmode="decimal" step="any" min="0" value="1" style="flex:1" title="portion multiplier" /></div>
+        <div class="hint">Second box is a portion multiplier (0.5 = half, 2 = double). Ingredients are added below and can still be tweaked.</div>
+        <button class="btn primary block" style="margin-top:8px" data-act="addMealRows">Add meal’s ingredients</button></div>`;
+    }
+  } else {
+    h += `<label class="f">Meal name</label><input id="edName" placeholder="e.g. Overnight oats" value="${esc(ED.name)}" />
+      <div class="hint">Amounts are for one portion. When logging you can scale by a multiplier.</div>`;
+  }
+  h += `<div class="sec-title" style="margin-top:16px">Ingredients</div>`;
+  if (noIng) h += `<div class="empty">You don’t have any ingredients yet — scan or add some in the Ingredients tab first.</div>`;
+  h += `<div id="rows">${ED.rows.map(rowHTML).join("")}</div>
+    <button class="btn block" data-act="addRow" ${noIng ? "disabled" : ""}>+ Ingredient</button>
+    <div class="live" id="live">${liveTotals()}</div>
+    <div class="btnrow">
+      <button class="btn gold" id="edSave" data-act="saveComposer">${isEntry ? "Save entry" : "Save meal"}</button>
+    </div>
+    ${ED.id ? `<div class="btnrow"><button class="btn danger" data-act="${isEntry ? "delEntry" : "delMeal"}" data-id="${ED.id}">Delete</button></div>` : ""}`;
+  openSheet(h);
+  const t = $("edTitle"); if (t) t.oninput = e => ED.title = e.target.value;
+  const n = $("edName"); if (n) n.oninput = e => ED.name = e.target.value;
+}
+function rerenderRows() { $("rows").innerHTML = ED.rows.map(rowHTML).join(""); $("live").innerHTML = liveTotals(); }
+
+async function saveComposer() {
+  if (ED.saving) return;
+  const rows = ED.rows.filter(r => r.snap || (r.ing && num(r.qty) > 0));
+  if (!rows.length) { toast("Add at least one ingredient with an amount", true); return; }
+  const btn = $("edSave"); ED.saving = true; btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving to GitHub…';
+  try {
+    if (ED.kind === "entry") {
+      const items = rows.map(r => {
+        if (r.snap) return r.snap;
+        const ing = ingById(r.ing); const g = rowGrams(r);
+        return { ing: ing.id, name: ing.name, g: r1(g), mode: r.mode, qty: num(r.qty), label: itemLabel(ing, g, r.mode, num(r.qty)), n: roundN(scaleN(ing.per100, g)) };
+      });
+      const now = new Date();
+      const entry = { id: ED.id || uid(), slot: ED.slot, title: ED.title.trim(), time: ED.time || pad(now.getHours()) + ":" + pad(now.getMinutes()), mealId: ED.mealId || undefined, items };
+      const d = ED.date, m = monthOf(d);
+      DB.logs[m] = await updateJSON(logPath(m), {}, data => {
+        const arr = data[d] = data[d] || [];
+        const i = arr.findIndex(x => x.id === entry.id);
+        if (i >= 0) arr[i] = entry; else arr.push(entry);
+      }, `Log ${entry.slot} ${d}`);
+      closeSheet(); tab = "log"; curDate = d; render(); toast("Saved · " + Math.round(entryTotals(entry).kcal) + " kcal");
+    } else {
+      const name = ED.name.trim();
+      if (!name) throw new Error("Give the meal a name");
+      const meal = { id: ED.id || uid(), name, items: rows.filter(r => !r.snap).map(r => ({ ing: r.ing, name: ingById(r.ing).name, g: r1(rowGrams(r)), mode: r.mode, qty: num(r.qty) })) };
+      DB.meals = await updateJSON("meals.json", [], arr => {
+        const i = arr.findIndex(x => x.id === meal.id);
+        if (i >= 0) arr[i] = meal; else arr.push(meal);
+      }, `Meal: ${name}`);
+      closeSheet(); tab = "meals"; render(); toast("Meal saved");
+    }
+  } catch (e) {
+    toast(e.message, true);
+    if (ED) { ED.saving = false; btn.disabled = false; btn.textContent = ED.kind === "entry" ? "Save entry" : "Save meal"; }
+  }
+}
+
+// ---------- ingredient editor + OCR ----------
+function openIngEditor(ing, extra = {}) {
+  IED = {
+    id: ing ? ing.id : null, name: ing ? ing.name : "", base: ing ? (ing.base || "g") : "g", basis: "100", servingG: "",
+    vals: ing ? { ...ing.per100 } : {}, unitName: ing && ing.unit ? ing.unit.name : "", unitG: ing && ing.unit ? ing.unit.g : "",
+    raw: "", img: null, scanning: false, progress: 0, phase: "", ...extra,
+  };
+  renderIngEditor();
+}
+function renderIngEditor() {
+  const s = IED;
+  let h = `<div class="sheet-head"><h2>${s.id ? "Edit ingredient" : "New ingredient"}</h2><button class="btn sm" data-act="closeSheet">Cancel</button></div>`;
+  if (s.img) h += `<img class="preview" src="${s.img}" alt="label photo" />`;
+  if (s.scanning) h += `<div class="card-sub" style="margin-top:8px"><span class="spinner"></span>${esc(s.phase || "Reading label…")} ${Math.round(s.progress * 100)}%</div><div class="progress"><i style="width:${Math.round(s.progress * 100)}%"></i></div>`;
+  else if (s.img) h += `<div class="hint">Read from photo — <b>check every number against the label</b> before saving. OCR is good, not perfect.</div>`;
+  h += `<label class="f">Name / label</label>
+    <input id="iName" placeholder="e.g. Tesco wholemeal pasta" value="${esc(s.name)}" />
+    <label class="f">Measured in</label>
+    <div class="seg"><button data-act="base" data-v="g" class="${s.base === "g" ? "active" : ""}">grams (solid)</button><button data-act="base" data-v="ml" class="${s.base === "ml" ? "active" : ""}">ml (liquid)</button></div>
+    <label class="f">Values below are</label>
+    <div class="seg"><button data-act="basis" data-v="100" class="${s.basis === "100" ? "active" : ""}">per 100${s.base}</button><button data-act="basis" data-v="serving" class="${s.basis === "serving" ? "active" : ""}">per serving</button></div>
+    <div class="${s.basis === "serving" ? "" : "hidden"}"><label class="f">Serving size (${s.base})</label><input id="iServ" type="number" inputmode="decimal" step="any" value="${esc(s.servingG)}" placeholder="e.g. 55" /></div>
+    <div class="nut-grid" style="margin-top:14px">
+      ${NUT.map(([k, label, unit, sub]) => `<label class="${sub ? "sub" : ""}" for="n_${k}">${label} (${unit})</label><input id="n_${k}" data-nut="${k}" type="number" inputmode="decimal" step="any" min="0" value="${s.vals[k] ?? ""}" placeholder="0" />`).join("")}
+    </div>
+    <div class="panel" style="margin-top:14px"><h2>Optional: count in units</h2>
+      <div class="hint" style="margin-top:0">For things you count rather than weigh — e.g. “egg” = 58g, “slice” = 36g.</div>
+      <div class="grid2"><div><label class="f">Unit name</label><input id="iUnitName" placeholder="slice" value="${esc(s.unitName)}" /></div>
+      <div><label class="f">Weight of 1 (${s.base})</label><input id="iUnitG" type="number" inputmode="decimal" step="any" value="${esc(s.unitG)}" placeholder="36" /></div></div>
+    </div>
+    ${s.raw ? `<details><summary>Text read from photo</summary><pre class="raw">${esc(s.raw)}</pre></details>` : ""}
+    <div class="btnrow"><button class="btn" data-act="rescan">📷 ${s.img ? "Rescan" : "Fill from label photo"}</button></div>
+    <div class="btnrow"><button class="btn gold" id="iSave" data-act="saveIng" ${s.scanning ? "disabled" : ""}>Save ingredient</button></div>
+    ${s.id ? `<div class="btnrow"><button class="btn danger" data-act="delIng" data-id="${s.id}">Delete ingredient</button></div>` : ""}`;
+  const keepScroll = $("sheet").classList.contains("hidden") ? 0 : $("sheet").scrollTop;
+  openSheet(h);
+  $("sheet").scrollTop = keepScroll;
+  $("iName").oninput = e => s.name = e.target.value;
+  const sv = $("iServ"); if (sv) sv.oninput = e => s.servingG = e.target.value;
+  $("iUnitName").oninput = e => s.unitName = e.target.value;
+  $("iUnitG").oninput = e => s.unitG = e.target.value;
+  document.querySelectorAll("[data-nut]").forEach(inp => inp.oninput = e => { s.vals[e.target.dataset.nut] = e.target.value === "" ? "" : e.target.value; });
+}
+
+async function saveIng() {
+  const s = IED;
+  const name = s.name.trim();
+  if (!name) { toast("Give it a name", true); return; }
+  if (DB.ingredients.some(i => i.id !== s.id && i.name.toLowerCase() === name.toLowerCase())) { toast("You already have an ingredient called that", true); return; }
+  let factor = 1;
+  if (s.basis === "serving") { const sg = num(s.servingG); if (!sg) { toast("Enter the serving size", true); return; } factor = 100 / sg; }
+  const per100 = {}; NKEYS.forEach(k => per100[k] = Math.round(num(s.vals[k] ?? 0) * factor * 1000) / 1000);
+  if (!per100.kcal && !per100.protein && !per100.carbs && !per100.fat) { if (!confirm("All the main values are 0. Save anyway?")) return; }
+  const unit = s.unitName.trim() && num(s.unitG) > 0 ? { name: s.unitName.trim(), g: num(s.unitG) } : null;
+  const ing = { id: s.id || uid(), name, base: s.base, per100, unit, updated: todayStr() };
+  const btn = $("iSave"); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Saving to GitHub…';
+  try {
+    DB.ingredients = await updateJSON("ingredients.json", [], arr => {
+      const i = arr.findIndex(x => x.id === ing.id);
+      if (i >= 0) arr[i] = { ...arr[i], ...ing }; else arr.push(ing);
+    }, `Ingredient: ${name}`);
+    const back = s.returnTo; closeSheet();
+    if (back) { ED = back; const ei = ED.rows.findIndex(r => !r.snap && !r.ing); if (ei >= 0) ED.rows[ei] = newRow(ing.id); else ED.rows.push(newRow(ing.id)); renderComposer(); } else { tab = "ingredients"; render(); }
+    toast("Saved " + name);
+  } catch (e) { toast(e.message, true); btn.disabled = false; btn.textContent = "Save ingredient"; }
+}
+
+function loadScript(src) { return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("Couldn't load OCR engine — check your connection")); document.head.appendChild(s); }); }
+async function getWorker(onProgress) {
+  if (!window.Tesseract) await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js");
+  if (!ocrWorker) {
+    ocrWorker = await Tesseract.createWorker("eng", 1, { logger: m => onProgress && onProgress(m) });
+  }
+  return ocrWorker;
+}
+let progressHook = null;
+async function prepImage(file) {
+  const url = URL.createObjectURL(file);
+  const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error("Couldn't open that image")); i.src = url; });
+  const longSide = Math.max(img.naturalWidth, img.naturalHeight);
+  const scale = Math.min(2400 / longSide, longSide < 1400 ? 2 : 1);
+  const w = Math.round(img.naturalWidth * scale), h = Math.round(img.naturalHeight * scale);
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const ctx = c.getContext("2d", { willReadFrequently: true }); ctx.drawImage(img, 0, 0, w, h);
+  // grayscale + contrast stretch
+  const d = ctx.getImageData(0, 0, w, h); const p = d.data; const hist = new Uint32Array(256);
+  for (let i = 0; i < p.length; i += 4) { const g = (p[i] * 0.299 + p[i + 1] * 0.587 + p[i + 2] * 0.114) | 0; p[i] = g; hist[g]++; }
+  const total = w * h; let acc = 0, lo = 0, hi = 255;
+  for (let i = 0; i < 256; i++) { acc += hist[i]; if (acc > total * 0.02) { lo = i; break; } }
+  acc = 0; for (let i = 255; i >= 0; i--) { acc += hist[i]; if (acc > total * 0.02) { hi = i; break; } }
+  const range = Math.max(1, hi - lo);
+  for (let i = 0; i < p.length; i += 4) { const v = Math.max(0, Math.min(255, (p[i] - lo) * 255 / range)); p[i] = p[i + 1] = p[i + 2] = v; }
+  ctx.putImageData(d, 0, 0);
+  // small preview of the original
+  const pc = document.createElement("canvas"); const ps = Math.min(1, 900 / longSide);
+  pc.width = Math.round(img.naturalWidth * ps); pc.height = Math.round(img.naturalHeight * ps);
+  pc.getContext("2d").drawImage(img, 0, 0, pc.width, pc.height);
+  URL.revokeObjectURL(url);
+  return { canvas: c, preview: pc.toDataURL("image/jpeg", 0.8) };
+}
+async function handlePhoto(file) {
+  if (!file) return;
+  if (!IED) openIngEditor(null);
+  const s = IED;
+  s.scanning = true; s.progress = 0; s.phase = "Preparing photo…"; renderIngEditor();
+  try {
+    const { canvas, preview } = await prepImage(file);
+    s.img = preview; s.phase = "Loading OCR engine (first time takes a moment)…"; renderIngEditor();
+    progressHook = m => {
+      if (IED !== s) return;
+      s.phase = m.status === "recognizing text" ? "Reading label…" : "Loading OCR engine…";
+      s.progress = m.progress || 0;
+      const bar = document.querySelector(".progress i"); if (bar) bar.style.width = Math.round(s.progress * 100) + "%";
+      const lbl = document.querySelector(".sheet .card-sub"); if (lbl) lbl.innerHTML = `<span class="spinner"></span>${esc(s.phase)} ${Math.round(s.progress * 100)}%`;
+    };
+    const w = await getWorker(m => progressHook && progressHook(m));
+    const { data } = await w.recognize(canvas);
+    if (IED !== s) return;
+    const parsed = parseLabel(data.text);
+    s.raw = data.text;
+    s.basis = parsed.basis; s.base = parsed.unitBase;
+    if (parsed.servingG) s.servingG = parsed.servingG;
+    let found = 0;
+    NKEYS.forEach(k => { if (parsed.values[k] != null) { s.vals[k] = parsed.values[k]; found++; } });
+    if (parsed.basis === "serving" && parsed.servingG && !s.unitName) { s.unitName = "serving"; s.unitG = parsed.servingG; }
+    s.scanning = false; renderIngEditor();
+    toast(found ? `Found ${found}/8 values — please check them` : "Couldn't read values — try a closer, flatter, well-lit photo", !found);
+  } catch (e) {
+    if (IED === s) { s.scanning = false; renderIngEditor(); }
+    toast(e.message, true);
+  }
+}
+
+// ---------- settings ----------
+function openSettings() {
+  const T = DB.settings.targets || {};
+  let h = `<div class="sheet-head"><h2>Settings</h2><button class="btn sm" data-act="closeSheet">Close</button></div>
+    <div class="panel"><h2>Daily targets (optional)</h2>
+      <div class="grid2">
+        ${[["kcal", "Calories (kcal)"], ["protein", "Protein (g)"], ["carbs", "Carbs (g)"], ["fat", "Fat (g)"], ["fibre", "Fibre (g)"]].map(([k, l]) => `<div><label class="f">${l}</label><input type="number" inputmode="decimal" step="any" id="t_${k}" value="${T[k] ?? ""}" /></div>`).join("")}
+      </div>
+      <button class="btn primary block" style="margin-top:12px" id="tSave" data-act="saveTargets">Save targets</button>
+    </div>
+    <div class="panel"><h2>Storage</h2>
+      <div class="card-sub">Repo: ${esc(cfg.owner)}/${esc(cfg.repo)}<br>Data branch: ${esc(cfg.branch)} (folder /${DATA_DIR})</div>
+      <div class="hint">Data lives on a separate branch so saving food doesn’t rebuild your GitHub Pages site.</div>
+      <label class="f">Data branch</label><input id="sBranch" value="${esc(cfg.branch)}" autocapitalize="off" />
+      <button class="btn block" style="margin-top:8px" data-act="saveBranch">Switch branch</button>
+      <button class="btn block" style="margin-top:8px" data-act="exportCsv">Export log as CSV</button>
+    </div>
+    <div class="btnrow"><button class="btn danger" data-act="logout">Lock &amp; forget token on this device</button></div>`;
+  openSheet(h);
+}
+async function exportCsv() {
+  const r = await gh(`${repoPath()}/contents/${DATA_DIR}/log?ref=${encodeURIComponent(cfg.branch)}`);
+  const files = r.ok ? (await r.json()).filter(f => /\d{4}-\d{2}\.json$/.test(f.name)) : [];
+  await Promise.all(files.map(f => ensureMonth(f.name.replace(".json", ""), true)));
+  const lines = ["date,time,slot,entry,ingredient,amount,grams," + NKEYS.join(",")];
+  const q = v => { const s = String(v ?? ""); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  Object.keys(DB.logs).sort().forEach(m => Object.keys(DB.logs[m]).sort().forEach(d => DB.logs[m][d].forEach(e => (e.items || []).forEach(it =>
+    lines.push([d, e.time, e.slot, e.title, it.name, it.label, it.g, ...NKEYS.map(k => r1((it.n || {})[k] || 0))].map(q).join(","))))));
+  const blob = new Blob([lines.join("\n") + "\n"], { type: "text/csv" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fuel-log.csv"; a.click();
+}
+
+// ---------- navigation ----------
+async function gotoDate(d) {
+  curDate = d;
+  render();
+  try { await ensureDays(weekDates(d)); render(); } catch (e) { toast(e.message, true); }
+}
+
+// ---------- actions ----------
+const ACT = {
+  login: doLogin,
+  tab: b => { tab = b.dataset.tab; render(); window.scrollTo(0, 0); },
+  day: b => gotoDate(addDays(curDate, +b.dataset.d)),
+  today: () => gotoDate(todayStr()),
+  goto: b => gotoDate(b.dataset.date),
+  toggle: b => b.parentElement.querySelector(".card-body").classList.toggle("hidden"),
+  closeSheet: () => { if (IED && IED.returnTo) { const back = IED.returnTo; closeSheet(); ED = back; renderComposer(); } else closeSheet(); },
+  newEntry: () => openComposer("entry"),
+  newMeal: () => openComposer("meal"),
+  scan: () => { IED = null; $("camInput").value = ""; $("camInput").click(); },
+  scanLib: () => { IED = null; $("picInput").value = ""; $("picInput").click(); },
+  rescan: () => { $("camInput").value = ""; $("camInput").click(); },
+  newIng: () => openIngEditor(null),
+  editIng: b => openIngEditor(ingById(b.dataset.id)),
+  base: b => { IED.base = b.dataset.v; renderIngEditor(); },
+  basis: b => { IED.basis = b.dataset.v; renderIngEditor(); },
+  saveIng,
+  delIng: async b => {
+    const ing = ingById(b.dataset.id); if (!ing) return;
+    const used = DB.meals.filter(m => (m.items || []).some(it => it.ing === ing.id)).map(m => m.name);
+    if (!confirm(`Delete "${ing.name}"?` + (used.length ? `\n\nIt's used in: ${used.join(", ")}. Those meals will skip it.` : "") + "\n\nPast log entries keep their numbers.")) return;
+    try { DB.ingredients = await updateJSON("ingredients.json", [], arr => { const i = arr.findIndex(x => x.id === ing.id); if (i >= 0) arr.splice(i, 1); }, `Delete ingredient: ${ing.name}`); closeSheet(); render(); toast("Deleted"); }
+    catch (e) { toast(e.message, true); }
+  },
+  slot: b => { ED.slot = b.dataset.slot; document.querySelectorAll(".chip").forEach(c => c.classList.toggle("active", c.dataset.slot === ED.slot)); },
+  addRow: () => { ED.rows.push(newRow()); rerenderRows(); const sels = document.querySelectorAll('#rows select[data-bind="ing"]'); sels[sels.length - 1]?.focus(); },
+  rmRow: b => { ED.rows.splice(+b.dataset.i, 1); rerenderRows(); },
+  addMealRows: () => {
+    const m = mealById($("edMeal").value); if (!m) { toast("Choose a meal", true); return; }
+    const portion = num($("edPortion").value) || 1;
+    ED.rows = ED.rows.filter(r => r.snap || r.ing);
+    ED.rows.push(...rowsFromMeal(m, portion));
+    if (!ED.title) ED.title = portion === 1 ? m.name : `${m.name} ×${portion}`;
+    ED.mealId = m.id; renderComposer();
+  },
+  saveComposer,
+  editEntry: b => {
+    const e = dayEntries(curDate).find(x => x.id === b.dataset.id); if (!e) return;
+    const rows = (e.items || []).map(it => ingById(it.ing) ? { key: uid(), ing: it.ing, mode: it.mode === "unit" && ingById(it.ing).unit ? "unit" : "g", qty: it.mode === "unit" ? it.qty : it.g } : { key: uid(), snap: it });
+    openComposer("entry", { id: e.id, slot: e.slot, title: e.title, rows, date: curDate, mealId: e.mealId, time: e.time });
+  },
+  delEntry: async b => {
+    if (!confirm("Delete this entry?")) return;
+    const d = ED && ED.date || curDate, m = monthOf(d), id = b.dataset.id;
+    try { DB.logs[m] = await updateJSON(logPath(m), {}, data => { data[d] = (data[d] || []).filter(x => x.id !== id); if (!data[d].length) delete data[d]; }, `Delete entry ${d}`); closeSheet(); render(); toast("Deleted"); }
+    catch (e) { toast(e.message, true); }
+  },
+  entryToMeal: b => {
+    const e = dayEntries(curDate).find(x => x.id === b.dataset.id); if (!e) return;
+    const rows = (e.items || []).filter(it => ingById(it.ing)).map(it => ({ key: uid(), ing: it.ing, mode: it.mode === "unit" && ingById(it.ing).unit ? "unit" : "g", qty: it.mode === "unit" ? it.qty : it.g }));
+    openComposer("meal", { name: e.title || "", rows });
+  },
+  logMeal: b => { const m = mealById(b.dataset.id); if (!m) return; openComposer("entry", { title: m.name, rows: rowsFromMeal(m, 1), mealId: m.id }); },
+  editMeal: b => { const m = mealById(b.dataset.id); if (!m) return; openComposer("meal", { id: m.id, name: m.name, rows: rowsFromMeal(m, 1) }); },
+  delMeal: async b => {
+    const m = mealById(b.dataset.id); if (!m || !confirm(`Delete saved meal "${m.name}"? Past log entries are kept.`)) return;
+    try { DB.meals = await updateJSON("meals.json", [], arr => { const i = arr.findIndex(x => x.id === m.id); if (i >= 0) arr.splice(i, 1); }, `Delete meal: ${m.name}`); closeSheet(); render(); toast("Deleted"); }
+    catch (e) { toast(e.message, true); }
+  },
+  openSettings,
+  saveTargets: async () => {
+    const t = {}; ["kcal", "protein", "carbs", "fat", "fibre"].forEach(k => { const v = num($("t_" + k).value); if (v > 0) t[k] = v; });
+    try { DB.settings = await updateJSON("settings.json", { targets: {} }, s => { s.targets = t; }, "Update targets"); closeSheet(); render(); toast("Targets saved"); }
+    catch (e) { toast(e.message, true); }
+  },
+  saveBranch: async () => {
+    const b = $("sBranch").value.trim(); if (!b || b === cfg.branch) return;
+    try {
+      const info = await (await gh(repoPath())).json();
+      await ensureBranch(b, info.default_branch);
+      cfg.branch = b; saveCfg(!!localStorage.getItem(LS_KEY)); DB.logs = {}; closeSheet(); await enterApp();
+    } catch (e) { toast(e.message, true); }
+  },
+  exportCsv: () => exportCsv().catch(e => toast(e.message, true)),
+  logout: () => { if (confirm("Forget the token on this device?")) lockOut(); },
+};
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+  const fn = ACT[b.dataset.act]; if (fn) { e.preventDefault(); fn(b); }
+});
+// composer row bindings
+document.addEventListener("input", e => {
+  const t = e.target; if (!ED || !t.dataset.bind) return;
+  const r = ED.rows[+t.dataset.i]; if (!r) return;
+  if (t.dataset.bind === "qty") {
+    r.qty = t.value;
+    const ing = ingById(r.ing); const meta = $("rm-" + t.dataset.i);
+    if (ing && meta) meta.innerHTML = rowMeta(r, rowN(r), ing);
+    $("live").innerHTML = liveTotals();
+  }
+});
+document.addEventListener("change", e => {
+  const t = e.target; if (!ED || !t.dataset.bind) return;
+  const r = ED.rows[+t.dataset.i]; if (!r) return;
+  if (t.dataset.bind === "ing") {
+    if (t.value === "__new") { t.value = r.ing; const back = ED; ED = null; openIngEditor(null, { returnTo: back }); ED = null; return; }
+    r.ing = t.value; const ing = ingById(r.ing);
+    r.mode = ing && ing.unit ? "unit" : "g"; r.qty = ing && ing.unit ? 1 : 100;
+    rerenderRows();
+    const q = document.querySelector(`input[data-bind="qty"][data-i="${t.dataset.i}"]`); if (q) { q.focus(); q.select(); }
+  } else if (t.dataset.bind === "mode") {
+    const ing = ingById(r.ing); const g = rowGrams(r);
+    r.mode = t.value;
+    r.qty = r.mode === "unit" && ing.unit ? r1(g / ing.unit.g) : r1(g);
+    rerenderRows();
+  }
+});
+$("camInput").onchange = e => handlePhoto(e.target.files[0]);
+$("picInput").onchange = e => handlePhoto(e.target.files[0]);
+$("lgToken").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+
+// ---------- boot ----------
+(async function boot() {
+  const det = detectRepo();
+  if (det) {
+    $("repoFields").classList.add("hidden");
+    const d = $("repoDetected"); d.classList.remove("hidden"); d.textContent = `Repo: ${det.owner}/${det.repo}`;
+  }
+  const saved = loadCfg();
+  if (saved && saved.token) {
+    if (!det) { $("lgOwner").value = saved.owner; $("lgRepo").value = saved.repo; }
+    if (det && (det.owner.toLowerCase() !== saved.owner.toLowerCase() || det.repo.toLowerCase() !== saved.repo.toLowerCase())) { lockOut(); return; }
+    setStatus("Checking saved token…");
+    $("login").classList.add("hidden");
+    try {
+      await verifyAndUnlock(saved.owner, saved.repo, saved.token, saved.branch);
+      await enterApp();
+    } catch (e) {
+      cfg = null;
+      if (e.message.startsWith("Network")) {   // offline: keep token, let user retry
+        $("login").classList.remove("hidden"); $("lgToken").value = saved.token;
+        $("lgRemember").checked = !!localStorage.getItem(LS_KEY);
+        setStatus("Offline? Couldn't reach GitHub — tap Unlock to retry", "err");
+      } else lockOut("Saved token no longer works: " + e.message);
+    }
+  } else {
+    setStatus("Locked — enter a repo access token to continue");
+  }
+})();
+</script>
+</body>
+</html>
