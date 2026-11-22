@@ -62,6 +62,50 @@
      }
     }
    ]
+  },
+  {
+   "id": "013eb97a-b84",
+   "slot": "Lunch",
+   "title": "",
+   "time": "14:45",
+   "items": [
+    {
+     "ing": "651906f8-b39",
+     "name": "Tesco plain Naan",
+     "g": 250,
+     "mode": "g",
+     "qty": 250,
+     "label": "250g",
+     "n": {
+      "kcal": 667.5,
+      "fat": 12.5,
+      "satfat": 1.5,
+      "carbs": 114.5,
+      "sugars": 7,
+      "fibre": 10.75,
+      "protein": 19.25,
+      "salt": 1.1
+     }
+    },
+    {
+     "ing": "a01e217e-a4c",
+     "name": "M&S Chicken TM",
+     "g": 460,
+     "mode": "g",
+     "qty": 460,
+     "label": "460g",
+     "n": {
+      "kcal": 726.8,
+      "fat": 43.7,
+      "satfat": 17.94,
+      "carbs": 19.32,
+      "sugars": 12.42,
+      "fibre": 4.14,
+      "protein": 62.1,
+      "salt": 3.22
+     }
+    }
+   ]
   }
  ]
 }
