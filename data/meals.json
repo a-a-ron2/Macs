@@ -1,0 +1,29 @@
+[
+ {
+  "id": "1590e60a-93e",
+  "name": "Breakfast Oats",
+  "items": [
+   {
+    "ing": "0440f034-206",
+    "name": "Biscoff Spread",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "d5da7301-000",
+    "name": "Scottish Oats Sains",
+    "g": 60,
+    "mode": "g",
+    "qty": 60
+   },
+   {
+    "ing": "ae23fcfe-451",
+    "name": "Whole Milk Sains",
+    "g": 200,
+    "mode": "g",
+    "qty": 200
+   }
+  ]
+ }
+]
