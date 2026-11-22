@@ -117,5 +117,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "d48b0e87-c56",
+  "name": "Sains Chicken Breast",
+  "base": "g",
+  "per100": {
+   "kcal": 137,
+   "fat": 1.6,
+   "satfat": 0.5,
+   "carbs": 0,
+   "sugars": 0,
+   "fibre": 0,
+   "protein": 26,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-22"
  }
 ]
