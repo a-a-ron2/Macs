@@ -1,0 +1,67 @@
+{
+ "2026-11-22": [
+  {
+   "id": "19e28004-e5d",
+   "slot": "Lunch",
+   "title": "Breakfast Oats",
+   "time": "11:24",
+   "mealId": "1590e60a-93e",
+   "items": [
+    {
+     "ing": "0440f034-206",
+     "name": "Biscoff Spread",
+     "g": 15,
+     "mode": "g",
+     "qty": 15,
+     "label": "15g",
+     "n": {
+      "kcal": 88,
+      "fat": 5.7,
+      "satfat": 1.1,
+      "carbs": 8.5,
+      "sugars": 5.5,
+      "fibre": 0.1,
+      "protein": 0.4,
+      "salt": 0.08
+     }
+    },
+    {
+     "ing": "d5da7301-000",
+     "name": "Scottish Oats Sains",
+     "g": 60,
+     "mode": "g",
+     "qty": 60,
+     "label": "60g",
+     "n": {
+      "kcal": 217.2,
+      "fat": 3.96,
+      "satfat": 0.78,
+      "carbs": 35.94,
+      "sugars": 0.54,
+      "fibre": 5.76,
+      "protein": 6.6,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "ae23fcfe-451",
+     "name": "Whole Milk Sains",
+     "g": 200,
+     "mode": "g",
+     "qty": 200,
+     "label": "200ml",
+     "n": {
+      "kcal": 132,
+      "fat": 7.4,
+      "satfat": 4.8,
+      "carbs": 9.4,
+      "sugars": 9.4,
+      "fibre": 0,
+      "protein": 7,
+      "salt": 0.22
+     }
+    }
+   ]
+  }
+ ]
+}
