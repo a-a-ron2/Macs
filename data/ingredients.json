@@ -83,5 +83,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "3dd41a3c-983",
+  "name": "Fage 0% Gr yogurt",
+  "base": "g",
+  "per100": {
+   "kcal": 54,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 3,
+   "sugars": 3,
+   "fibre": 0,
+   "protein": 10.3,
+   "salt": 0.1
+  },
+  "unit": null,
+  "updated": "2026-11-22"
  }
 ]
