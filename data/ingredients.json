@@ -15,5 +15,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "ae23fcfe-451",
+  "name": "Whole Milk Sains",
+  "base": "ml",
+  "per100": {
+   "kcal": 66,
+   "fat": 3.7,
+   "satfat": 2.4,
+   "carbs": 4.7,
+   "sugars": 4.7,
+   "fibre": 0,
+   "protein": 3.5,
+   "salt": 0.11
+  },
+  "unit": null,
+  "updated": "2026-11-22"
  }
 ]
