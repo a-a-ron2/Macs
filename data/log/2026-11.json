@@ -169,5 +169,69 @@
     }
    ]
   }
+ ],
+ "2026-11-23": [
+  {
+   "id": "6e58a15b-aff",
+   "slot": "Dinner",
+   "title": "",
+   "time": "17:45",
+   "items": [
+    {
+     "ing": "3dd41a3c-983",
+     "name": "Fage 0% Gr yogurt",
+     "g": 225,
+     "mode": "g",
+     "qty": 225,
+     "label": "225g",
+     "n": {
+      "kcal": 121.5,
+      "fat": 0,
+      "satfat": 0,
+      "carbs": 6.75,
+      "sugars": 6.75,
+      "fibre": 0,
+      "protein": 23.175,
+      "salt": 0.225
+     }
+    },
+    {
+     "ing": "8d1b87da-285",
+     "name": "Tilda Basmati Rice",
+     "g": 100,
+     "mode": "g",
+     "qty": 100,
+     "label": "100g",
+     "n": {
+      "kcal": 351,
+      "fat": 0.8,
+      "satfat": 0.2,
+      "carbs": 77.7,
+      "sugars": 0.5,
+      "fibre": 1,
+      "protein": 7.8,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "d48b0e87-c56",
+     "name": "Sains Chicken Breast",
+     "g": 400,
+     "mode": "g",
+     "qty": 400,
+     "label": "400g",
+     "n": {
+      "kcal": 548,
+      "fat": 6.4,
+      "satfat": 2,
+      "carbs": 0,
+      "sugars": 0,
+      "fibre": 0,
+      "protein": 104,
+      "salt": 0
+     }
+    }
+   ]
+  }
  ]
 }
