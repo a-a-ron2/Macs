@@ -232,6 +232,32 @@
      }
     }
    ]
+  },
+  {
+   "id": "dc6c4429-082",
+   "slot": "Dinner",
+   "title": "",
+   "time": "18:37",
+   "items": [
+    {
+     "ing": "79510e50-76b",
+     "name": "Popeyes 8 piece + large Cajun fries",
+     "g": 100,
+     "mode": "g",
+     "qty": 100,
+     "label": "100g",
+     "n": {
+      "kcal": 1500,
+      "fat": 0,
+      "satfat": 0,
+      "carbs": 0,
+      "sugars": 0,
+      "fibre": 0,
+      "protein": 150,
+      "salt": 0
+     }
+    }
+   ]
   }
  ]
 }
