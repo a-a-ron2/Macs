@@ -134,5 +134,22 @@
   },
   "unit": null,
   "updated": "2026-11-22"
+ },
+ {
+  "id": "79510e50-76b",
+  "name": "Popeyes 8 piece + large Cajun fries",
+  "base": "g",
+  "per100": {
+   "kcal": 1500,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 0,
+   "sugars": 0,
+   "fibre": 0,
+   "protein": 150,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-23"
  }
 ]
