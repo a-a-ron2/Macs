@@ -86,7 +86,7 @@
  },
  {
   "id": "3dd41a3c-983",
-  "name": "Fage 0% Gr yogurt",
+  "name": "0% Gr yogurt Fage",
   "base": "g",
   "per100": {
    "kcal": 54,
@@ -99,7 +99,7 @@
    "salt": 0.1
   },
   "unit": null,
-  "updated": "2026-11-22"
+  "updated": "2026-11-26"
  },
  {
   "id": "8d1b87da-285",
