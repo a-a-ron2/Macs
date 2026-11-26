@@ -704,5 +704,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "a583917a-59a",
+  "name": "Honey Rowse (1 spoon = 10g)",
+  "base": "g",
+  "per100": {
+   "kcal": 329,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 81.5,
+   "sugars": 80.8,
+   "fibre": 0,
+   "protein": 0,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
