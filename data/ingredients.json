@@ -500,5 +500,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "88d1eeb5-75d",
+  "name": "Cucumber with skin",
+  "base": "g",
+  "per100": {
+   "kcal": 15,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 3.6,
+   "sugars": 1.7,
+   "fibre": 0.5,
+   "protein": 0.7,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
