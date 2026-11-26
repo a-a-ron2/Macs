@@ -259,5 +259,25 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "30d248cf-ed7",
+  "name": "Avocado",
+  "base": "g",
+  "per100": {
+   "kcal": 160,
+   "fat": 14.667,
+   "satfat": 2.133,
+   "carbs": 8.533,
+   "sugars": 0.467,
+   "fibre": 6.733,
+   "protein": 2,
+   "salt": 0
+  },
+  "unit": {
+   "name": "piece",
+   "g": 150
+  },
+  "updated": "2026-11-26"
  }
 ]
