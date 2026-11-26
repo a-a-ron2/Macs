@@ -313,5 +313,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "3bc92613-7e7",
+  "name": "Cumin",
+  "base": "g",
+  "per100": {
+   "kcal": 375,
+   "fat": 22.3,
+   "satfat": 1.5,
+   "carbs": 44.2,
+   "sugars": 2.3,
+   "fibre": 10.5,
+   "protein": 17.8,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
