@@ -432,5 +432,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "f9691344-18a",
+  "name": "Parm-reg powder",
+  "base": "g",
+  "per100": {
+   "kcal": 402,
+   "fat": 29.7,
+   "satfat": 19.6,
+   "carbs": 0,
+   "sugars": 0,
+   "fibre": 0,
+   "protein": 32.4,
+   "salt": 1.63
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
