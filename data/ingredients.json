@@ -347,5 +347,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "246c409a-ce0",
+  "name": "Paprika",
+  "base": "g",
+  "per100": {
+   "kcal": 282,
+   "fat": 12.9,
+   "satfat": 2.9,
+   "carbs": 54,
+   "sugars": 10.3,
+   "fibre": 34.9,
+   "protein": 14.1,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
