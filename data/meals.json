@@ -355,6 +355,62 @@
     "g": 100,
     "mode": "g",
     "qty": 100
+   },
+   {
+    "ing": "ba6e7a8f-792",
+    "name": "Gochujang",
+    "g": 40,
+    "mode": "g",
+    "qty": 40
+   },
+   {
+    "ing": "201fb2f4-cb6",
+    "name": "Light Soy Sauce (1 spoon = 7.5g)",
+    "g": 17,
+    "mode": "g",
+    "qty": 17
+   },
+   {
+    "ing": "a583917a-59a",
+    "name": "Honey Rowse (1 spoon = 10g)",
+    "g": 10,
+    "mode": "g",
+    "qty": 10
+   },
+   {
+    "ing": "630243bf-bd8",
+    "name": "White Wine Vinegar",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "87472676-10a",
+    "name": "Sesame oil M&S (1 spoon = 7.5g)",
+    "g": 10,
+    "mode": "g",
+    "qty": 10
+   },
+   {
+    "ing": "7572822a-322",
+    "name": "Chopped Garlic (1 spoon = 20g)",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "9b1537a5-6fe",
+    "name": "Black Pepper (1 spoon = 6g)",
+    "g": 3,
+    "mode": "g",
+    "qty": 3
+   },
+   {
+    "ing": "88d1eeb5-75d",
+    "name": "Cucumber with skin",
+    "g": 50,
+    "mode": "g",
+    "qty": 50
    }
   ]
  }
