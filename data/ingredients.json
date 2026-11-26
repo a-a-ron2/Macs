@@ -120,7 +120,7 @@
  },
  {
   "id": "d48b0e87-c56",
-  "name": "Sains Chicken Breast",
+  "name": "Chicken Breast Sains",
   "base": "g",
   "per100": {
    "kcal": 137,
@@ -133,7 +133,7 @@
    "salt": 0
   },
   "unit": null,
-  "updated": "2026-11-22"
+  "updated": "2026-11-26"
  },
  {
   "id": "79510e50-76b",
