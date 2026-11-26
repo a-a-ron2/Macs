@@ -483,5 +483,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "4765e180-2e2",
+  "name": "Sundried Tomato Paste M&S",
+  "base": "g",
+  "per100": {
+   "kcal": 492,
+   "fat": 45.9,
+   "satfat": 4.9,
+   "carbs": 14.9,
+   "sugars": 11.1,
+   "fibre": 3.8,
+   "protein": 3,
+   "salt": 2.45
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
