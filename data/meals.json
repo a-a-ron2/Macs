@@ -47,16 +47,58 @@
    {
     "ing": "60a5186a-fda",
     "name": "Chipotle peppers in Adobo",
-    "g": 70,
+    "g": 35,
     "mode": "g",
-    "qty": 70
+    "qty": 35
    },
    {
     "ing": "7572822a-322",
-    "name": "Chopped Garlic",
-    "g": 30,
+    "name": "Chopped Garlic (1 spoon = 20g)",
+    "g": 15,
     "mode": "g",
-    "qty": 30
+    "qty": 15
+   },
+   {
+    "ing": "c78965c7-e3e",
+    "name": "Canola oil (1 spoon = 8g)",
+    "g": 4,
+    "mode": "g",
+    "qty": 4
+   },
+   {
+    "ing": "704be3fb-408",
+    "name": "Canned Sweet Corn M&S",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "7ef0fcec-9e3",
+    "name": "1 tomato",
+    "g": 62,
+    "mode": "g",
+    "qty": 62
+   },
+   {
+    "ing": "fd1953f6-9cb",
+    "name": "1 Onion",
+    "g": 27.5,
+    "mode": "g",
+    "qty": 27.5
+   },
+   {
+    "ing": "efe28e86-296",
+    "name": "Black Beans Canned Sains",
+    "g": 50,
+    "mode": "g",
+    "qty": 50
+   },
+   {
+    "ing": "30d248cf-ed7",
+    "name": "Avocado",
+    "g": 25,
+    "mode": "g",
+    "qty": 25
    }
   ]
  }
