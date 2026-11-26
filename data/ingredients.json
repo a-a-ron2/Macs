@@ -619,5 +619,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "201fb2f4-cb6",
+  "name": "Light Soy Sauce",
+  "base": "g",
+  "per100": {
+   "kcal": 64,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 12.2,
+   "sugars": 10.5,
+   "fibre": 0,
+   "protein": 3.8,
+   "salt": 20.05
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
