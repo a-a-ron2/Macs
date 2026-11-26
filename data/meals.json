@@ -25,5 +25,39 @@
     "qty": 200
    }
   ]
+ },
+ {
+  "id": "9b7cdb68-6b0",
+  "name": "Chipotle Chicken Rice Bowl",
+  "items": [
+   {
+    "ing": "8d1b87da-285",
+    "name": "Tilda Basmati Rice",
+    "g": 100,
+    "mode": "g",
+    "qty": 100
+   },
+   {
+    "ing": "d48b0e87-c56",
+    "name": "Sains Chicken Breast",
+    "g": 400,
+    "mode": "g",
+    "qty": 400
+   },
+   {
+    "ing": "60a5186a-fda",
+    "name": "Chipotle peppers in Adobo",
+    "g": 70,
+    "mode": "g",
+    "qty": 70
+   },
+   {
+    "ing": "7572822a-322",
+    "name": "Chopped Garlic",
+    "g": 30,
+    "mode": "g",
+    "qty": 30
+   }
+  ]
  }
 ]
