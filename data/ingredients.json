@@ -222,5 +222,25 @@
    "g": 1
   },
   "updated": "2026-11-26"
+ },
+ {
+  "id": "fd1953f6-9cb",
+  "name": "1 Onion",
+  "base": "g",
+  "per100": {
+   "kcal": 40,
+   "fat": 0.091,
+   "satfat": 0,
+   "carbs": 9.364,
+   "sugars": 4.273,
+   "fibre": 1.727,
+   "protein": 1.091,
+   "salt": 0
+  },
+  "unit": {
+   "name": "piece",
+   "g": 110
+  },
+  "updated": "2026-11-26"
  }
 ]
