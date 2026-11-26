@@ -99,6 +99,48 @@
     "g": 25,
     "mode": "g",
     "qty": 25
+   },
+   {
+    "ing": "3bc92613-7e7",
+    "name": "Cumin 1 spoon = 5g",
+    "g": 10,
+    "mode": "g",
+    "qty": 10
+   },
+   {
+    "ing": "7418b860-908",
+    "name": "Oregano 1 spoon = 1g",
+    "g": 2,
+    "mode": "g",
+    "qty": 2
+   },
+   {
+    "ing": "246c409a-ce0",
+    "name": "Paprika 1 spoon = 5g",
+    "g": 10,
+    "mode": "g",
+    "qty": 10
+   },
+   {
+    "ing": "5c03a020-5d3",
+    "name": "Lime Juice 1 spoon = 5g",
+    "g": 20,
+    "mode": "g",
+    "qty": 20
+   },
+   {
+    "ing": "6cc6eaaf-1f8",
+    "name": "Salt (1 spoon=15g)",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "9b1537a5-6fe",
+    "name": "Black Pepper (1 spoon = 6g)",
+    "g": 6,
+    "mode": "g",
+    "qty": 6
    }
   ]
  }
