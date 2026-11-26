@@ -585,5 +585,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "547a7e32-255",
+  "name": "Light Mayo Hellman's",
+  "base": "g",
+  "per100": {
+   "kcal": 266,
+   "fat": 26,
+   "satfat": 2.6,
+   "carbs": 6.1,
+   "sugars": 2.3,
+   "fibre": 0,
+   "protein": 0,
+   "salt": 1.7
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
