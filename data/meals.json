@@ -684,5 +684,25 @@
     "qty": 50
    }
   ]
+ },
+ {
+  "id": "1e6482e6-9c7",
+  "name": "Plain Oatmeal",
+  "items": [
+   {
+    "ing": "d5da7301-000",
+    "name": "Scottish Oats Sains",
+    "g": 60,
+    "mode": "g",
+    "qty": 60
+   },
+   {
+    "ing": "ae23fcfe-451",
+    "name": "Whole Milk Sains",
+    "g": 200,
+    "mode": "g",
+    "qty": 200
+   }
+  ]
  }
 ]
