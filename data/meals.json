@@ -692,16 +692,16 @@
    {
     "ing": "d5da7301-000",
     "name": "Scottish Oats Sains",
-    "g": 60,
+    "g": 30,
     "mode": "g",
-    "qty": 60
+    "qty": 30
    },
    {
     "ing": "ae23fcfe-451",
     "name": "Whole Milk Sains",
-    "g": 200,
+    "g": 100,
     "mode": "g",
-    "qty": 200
+    "qty": 100
    }
   ]
  }
