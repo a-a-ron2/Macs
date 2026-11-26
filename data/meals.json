@@ -233,5 +233,32 @@
     "qty": 130
    }
   ]
+ },
+ {
+  "id": "933b8f3a-e6b",
+  "name": "Chicken Shawarma Bowl",
+  "items": [
+   {
+    "ing": "d48b0e87-c56",
+    "name": "Sains Chicken Breast",
+    "g": 400,
+    "mode": "g",
+    "qty": 400
+   },
+   {
+    "ing": "8d1b87da-285",
+    "name": "Tilda Basmati Rice",
+    "g": 100,
+    "mode": "g",
+    "qty": 100
+   },
+   {
+    "ing": "3dd41a3c-983",
+    "name": "Fage 0% Gr yogurt",
+    "g": 150,
+    "mode": "g",
+    "qty": 150
+   }
+  ]
  }
 ]
