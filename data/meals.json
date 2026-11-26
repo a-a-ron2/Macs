@@ -143,5 +143,88 @@
     "qty": 6
    }
   ]
+ },
+ {
+  "id": "deb5e298-13f",
+  "name": "Chicken Pasta",
+  "items": [
+   {
+    "ing": "d48b0e87-c56",
+    "name": "Sains Chicken Breast",
+    "g": 400,
+    "mode": "g",
+    "qty": 400
+   },
+   {
+    "ing": "d412d30c-775",
+    "name": "Pasta M&S dry weight",
+    "g": 100,
+    "mode": "g",
+    "qty": 100
+   },
+   {
+    "ing": "246c409a-ce0",
+    "name": "Paprika 1 spoon = 5g",
+    "g": 5,
+    "mode": "g",
+    "qty": 5
+   },
+   {
+    "ing": "7418b860-908",
+    "name": "Oregano 1 spoon = 1g",
+    "g": 1,
+    "mode": "g",
+    "qty": 1
+   },
+   {
+    "ing": "9b1537a5-6fe",
+    "name": "Black Pepper (1 spoon = 6g)",
+    "g": 3,
+    "mode": "g",
+    "qty": 3
+   },
+   {
+    "ing": "6cc6eaaf-1f8",
+    "name": "Salt (1 spoon=15g)",
+    "g": 7.5,
+    "mode": "g",
+    "qty": 7.5
+   },
+   {
+    "ing": "7572822a-322",
+    "name": "Chopped Garlic (1 spoon = 20g)",
+    "g": 15,
+    "mode": "g",
+    "qty": 15
+   },
+   {
+    "ing": "4765e180-2e2",
+    "name": "Sundried Tomato Paste M&S",
+    "g": 25,
+    "mode": "g",
+    "qty": 25
+   },
+   {
+    "ing": "44fd553c-622",
+    "name": "Passata Sains",
+    "g": 250,
+    "mode": "g",
+    "qty": 250
+   },
+   {
+    "ing": "65756920-3bf",
+    "name": "Cream Cheese Philly",
+    "g": 50,
+    "mode": "g",
+    "qty": 50
+   },
+   {
+    "ing": "f9691344-18a",
+    "name": "Parm-reg powder",
+    "g": 10,
+    "mode": "g",
+    "qty": 10
+   }
+  ]
  }
 ]
