@@ -466,5 +466,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "44fd553c-622",
+  "name": "Passata Sains",
+  "base": "g",
+  "per100": {
+   "kcal": 31,
+   "fat": 0.8,
+   "satfat": 0.4,
+   "carbs": 4.2,
+   "sugars": 3.7,
+   "fibre": 0,
+   "protein": 1.5,
+   "salt": 0.03
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
