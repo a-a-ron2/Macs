@@ -398,5 +398,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "9b1537a5-6fe",
+  "name": "Black Pepper",
+  "base": "g",
+  "per100": {
+   "kcal": 251,
+   "fat": 3.3,
+   "satfat": 1.4,
+   "carbs": 63.9,
+   "sugars": 0.6,
+   "fibre": 25.3,
+   "protein": 10.4,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
