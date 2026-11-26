@@ -151,5 +151,22 @@
   },
   "unit": null,
   "updated": "2026-11-23"
+ },
+ {
+  "id": "60a5186a-fda",
+  "name": "Chipotle peppers in Adobo",
+  "base": "g",
+  "per100": {
+   "kcal": 100,
+   "fat": 5,
+   "satfat": 0,
+   "carbs": 13.333,
+   "sugars": 10,
+   "fibre": 6.667,
+   "protein": 0,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
