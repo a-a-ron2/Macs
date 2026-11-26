@@ -415,5 +415,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "d412d30c-775",
+  "name": "Pasta M&S dry weight",
+  "base": "g",
+  "per100": {
+   "kcal": 353,
+   "fat": 1.4,
+   "satfat": 0.3,
+   "carbs": 71.4,
+   "sugars": 1.9,
+   "fibre": 3,
+   "protein": 12.2,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
