@@ -150,7 +150,7 @@
   "items": [
    {
     "ing": "d48b0e87-c56",
-    "name": "Sains Chicken Breast",
+    "name": "Chicken Breast Sains",
     "g": 400,
     "mode": "g",
     "qty": 400
@@ -207,9 +207,9 @@
    {
     "ing": "44fd553c-622",
     "name": "Passata Sains",
-    "g": 250,
+    "g": 125,
     "mode": "g",
-    "qty": 250
+    "qty": 125
    },
    {
     "ing": "65756920-3bf",
@@ -228,9 +228,9 @@
    {
     "ing": "7b454b5b-f35",
     "name": "Spinach M&S",
-    "g": 130,
+    "g": 65,
     "mode": "g",
-    "qty": 130
+    "qty": 65
    }
   ]
  },
