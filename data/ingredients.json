@@ -687,5 +687,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "ba6e7a8f-792",
+  "name": "Gochujang",
+  "base": "g",
+  "per100": {
+   "kcal": 231,
+   "fat": 3,
+   "satfat": 0.5,
+   "carbs": 43,
+   "sugars": 20,
+   "fibre": 3.8,
+   "protein": 6,
+   "salt": 6.8
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
