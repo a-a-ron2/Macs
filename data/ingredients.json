@@ -449,5 +449,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "65756920-3bf",
+  "name": "Cream Cheese Philly",
+  "base": "g",
+  "per100": {
+   "kcal": 226,
+   "fat": 21,
+   "satfat": 14,
+   "carbs": 4.3,
+   "sugars": 4.3,
+   "fibre": 0,
+   "protein": 5.4,
+   "salt": 0.75
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
