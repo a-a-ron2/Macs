@@ -670,5 +670,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "d87817fa-ba6",
+  "name": "Coriander",
+  "base": "g",
+  "per100": {
+   "kcal": 298,
+   "fat": 17.8,
+   "satfat": 0.99,
+   "carbs": 54.9,
+   "sugars": 0,
+   "fibre": 41.9,
+   "protein": 12.4,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
