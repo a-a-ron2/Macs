@@ -551,5 +551,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "d2b420f4-3ed",
+  "name": "Mint",
+  "base": "g",
+  "per100": {
+   "kcal": 0,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 0,
+   "sugars": 0,
+   "fibre": 0,
+   "protein": 0,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
