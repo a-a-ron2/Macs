@@ -202,5 +202,25 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "7ef0fcec-9e3",
+  "name": "1 tomato",
+  "base": "g",
+  "per100": {
+   "kcal": 17.886,
+   "fat": 0.163,
+   "satfat": 0,
+   "carbs": 3.902,
+   "sugars": 2.602,
+   "fibre": 1.22,
+   "protein": 0.894,
+   "salt": 0
+  },
+  "unit": {
+   "name": "Piece",
+   "g": 1
+  },
+  "updated": "2026-11-26"
  }
 ]
