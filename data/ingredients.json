@@ -517,5 +517,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "ed7b11af-2ed",
+  "name": "Lemon juice (1spoon = 5g)",
+  "base": "g",
+  "per100": {
+   "kcal": 22,
+   "fat": 0.2,
+   "satfat": 0.02,
+   "carbs": 6.9,
+   "sugars": 2.5,
+   "fibre": 0.3,
+   "protein": 0.4,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
