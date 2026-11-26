@@ -364,5 +364,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "5c03a020-5d3",
+  "name": "Lime Juice",
+  "base": "ml",
+  "per100": {
+   "kcal": 25,
+   "fat": 0,
+   "satfat": 0,
+   "carbs": 8.4,
+   "sugars": 1.7,
+   "fibre": 0.4,
+   "protein": 0.4,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
