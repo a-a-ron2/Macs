@@ -337,5 +337,25 @@
     "qty": 10
    }
   ]
+ },
+ {
+  "id": "e14816b7-015",
+  "name": "Korean Chicken Rice Bowl",
+  "items": [
+   {
+    "ing": "d48b0e87-c56",
+    "name": "Sains Chicken Breast",
+    "g": 400,
+    "mode": "g",
+    "qty": 400
+   },
+   {
+    "ing": "8d1b87da-285",
+    "name": "Tilda Basmati Rice",
+    "g": 100,
+    "mode": "g",
+    "qty": 100
+   }
+  ]
  }
 ]
