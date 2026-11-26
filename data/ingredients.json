@@ -330,5 +330,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "7418b860-908",
+  "name": "Oregano",
+  "base": "g",
+  "per100": {
+   "kcal": 265,
+   "fat": 4.3,
+   "satfat": 1.6,
+   "carbs": 68.9,
+   "sugars": 4.1,
+   "fibre": 42.5,
+   "protein": 9,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
