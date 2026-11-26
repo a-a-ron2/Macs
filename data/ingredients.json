@@ -568,5 +568,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "38859c8f-d0e",
+  "name": "Feta",
+  "base": "g",
+  "per100": {
+   "kcal": 265,
+   "fat": 21.5,
+   "satfat": 14.9,
+   "carbs": 4.1,
+   "sugars": 4.1,
+   "fibre": 0,
+   "protein": 14.2,
+   "salt": 2.5
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
