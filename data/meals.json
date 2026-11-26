@@ -311,30 +311,30 @@
    {
     "ing": "88d1eeb5-75d",
     "name": "Cucumber with skin",
-    "g": 100,
+    "g": 50,
     "mode": "g",
-    "qty": 100
+    "qty": 50
    },
    {
     "ing": "7ef0fcec-9e3",
     "name": "1 tomato",
-    "g": 123,
+    "g": 62,
     "mode": "g",
-    "qty": 123
+    "qty": 62
    },
    {
     "ing": "3dd41a3c-983",
     "name": "Fage 0% Gr yogurt",
-    "g": 300,
+    "g": 150,
     "mode": "g",
-    "qty": 300
+    "qty": 150
    },
    {
     "ing": "7572822a-322",
     "name": "Chopped Garlic (1 spoon = 20g)",
-    "g": 20,
+    "g": 10,
     "mode": "g",
-    "qty": 20
+    "qty": 10
    }
   ]
  }
