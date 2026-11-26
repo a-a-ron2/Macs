@@ -185,5 +185,22 @@
   },
   "unit": null,
   "updated": "2026-11-26"
+ },
+ {
+  "id": "704be3fb-408",
+  "name": "Canned Sweet Corn M&S",
+  "base": "g",
+  "per100": {
+   "kcal": 77,
+   "fat": 1.8,
+   "satfat": 0.4,
+   "carbs": 11,
+   "sugars": 5,
+   "fibre": 2.8,
+   "protein": 2.7,
+   "salt": 0
+  },
+  "unit": null,
+  "updated": "2026-11-26"
  }
 ]
