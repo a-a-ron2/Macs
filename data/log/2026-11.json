@@ -259,5 +259,304 @@
     }
    ]
   }
+ ],
+ "2026-11-28": [
+  {
+   "id": "ffd96fdd-80a",
+   "slot": "Dinner",
+   "title": "Chipotle Chicken Rice Bowl",
+   "time": "17:23",
+   "mealId": "9b7cdb68-6b0",
+   "items": [
+    {
+     "ing": "8d1b87da-285",
+     "name": "Tilda Basmati Rice",
+     "g": 100,
+     "mode": "g",
+     "qty": 100,
+     "label": "100g",
+     "n": {
+      "kcal": 351,
+      "fat": 0.8,
+      "satfat": 0.2,
+      "carbs": 77.7,
+      "sugars": 0.5,
+      "fibre": 1,
+      "protein": 7.8,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "d48b0e87-c56",
+     "name": "Chicken Breast Sains",
+     "g": 400,
+     "mode": "g",
+     "qty": 400,
+     "label": "400g",
+     "n": {
+      "kcal": 548,
+      "fat": 6.4,
+      "satfat": 2,
+      "carbs": 0,
+      "sugars": 0,
+      "fibre": 0,
+      "protein": 104,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "60a5186a-fda",
+     "name": "Chipotle peppers in Adobo",
+     "g": 35,
+     "mode": "g",
+     "qty": 35,
+     "label": "35g",
+     "n": {
+      "kcal": 35,
+      "fat": 1.75,
+      "satfat": 0,
+      "carbs": 4.667,
+      "sugars": 3.5,
+      "fibre": 2.333,
+      "protein": 0,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "7572822a-322",
+     "name": "Chopped Garlic (1 spoon = 20g)",
+     "g": 15,
+     "mode": "g",
+     "qty": 15,
+     "label": "15g",
+     "n": {
+      "kcal": 11.4,
+      "fat": 0,
+      "satfat": 0,
+      "carbs": 1.695,
+      "sugars": 0.105,
+      "fibre": 0,
+      "protein": 0.705,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "c78965c7-e3e",
+     "name": "Canola oil (1 spoon = 8g)",
+     "g": 4,
+     "mode": "g",
+     "qty": 4,
+     "label": "4ml",
+     "n": {
+      "kcal": 33.12,
+      "fat": 3.68,
+      "satfat": 0.28,
+      "carbs": 0,
+      "sugars": 0,
+      "fibre": 0,
+      "protein": 0,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "704be3fb-408",
+     "name": "Canned Sweet Corn M&S",
+     "g": 15,
+     "mode": "g",
+     "qty": 15,
+     "label": "15g",
+     "n": {
+      "kcal": 11.55,
+      "fat": 0.27,
+      "satfat": 0.06,
+      "carbs": 1.65,
+      "sugars": 0.75,
+      "fibre": 0.42,
+      "protein": 0.405,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "7ef0fcec-9e3",
+     "name": "Tomato",
+     "g": 62,
+     "mode": "g",
+     "qty": 62,
+     "label": "62g",
+     "n": {
+      "kcal": 11.089,
+      "fat": 0.101,
+      "satfat": 0,
+      "carbs": 2.419,
+      "sugars": 1.613,
+      "fibre": 0.756,
+      "protein": 0.554,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "fd1953f6-9cb",
+     "name": "Onion",
+     "g": 27.5,
+     "mode": "g",
+     "qty": 27.5,
+     "label": "27.5g",
+     "n": {
+      "kcal": 11,
+      "fat": 0.025,
+      "satfat": 0,
+      "carbs": 2.575,
+      "sugars": 1.175,
+      "fibre": 0.475,
+      "protein": 0.3,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "efe28e86-296",
+     "name": "Black Beans Canned Sains",
+     "g": 50,
+     "mode": "g",
+     "qty": 50,
+     "label": "50g",
+     "n": {
+      "kcal": 53,
+      "fat": 0.4,
+      "satfat": 0.1,
+      "carbs": 6.9,
+      "sugars": 0.25,
+      "fibre": 3.85,
+      "protein": 3.55,
+      "salt": 0.01
+     }
+    },
+    {
+     "ing": "30d248cf-ed7",
+     "name": "Avocado",
+     "g": 25,
+     "mode": "g",
+     "qty": 25,
+     "label": "25g",
+     "n": {
+      "kcal": 40,
+      "fat": 3.667,
+      "satfat": 0.533,
+      "carbs": 2.133,
+      "sugars": 0.117,
+      "fibre": 1.683,
+      "protein": 0.5,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "3bc92613-7e7",
+     "name": "Cumin 1 spoon = 5g",
+     "g": 10,
+     "mode": "g",
+     "qty": 10,
+     "label": "10g",
+     "n": {
+      "kcal": 37.5,
+      "fat": 2.23,
+      "satfat": 0.15,
+      "carbs": 4.42,
+      "sugars": 0.23,
+      "fibre": 1.05,
+      "protein": 1.78,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "7418b860-908",
+     "name": "Oregano 1 spoon = 1g",
+     "g": 2,
+     "mode": "g",
+     "qty": 2,
+     "label": "2g",
+     "n": {
+      "kcal": 5.3,
+      "fat": 0.086,
+      "satfat": 0.032,
+      "carbs": 1.378,
+      "sugars": 0.082,
+      "fibre": 0.85,
+      "protein": 0.18,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "246c409a-ce0",
+     "name": "Paprika 1 spoon = 5g",
+     "g": 10,
+     "mode": "g",
+     "qty": 10,
+     "label": "10g",
+     "n": {
+      "kcal": 28.2,
+      "fat": 1.29,
+      "satfat": 0.29,
+      "carbs": 5.4,
+      "sugars": 1.03,
+      "fibre": 3.49,
+      "protein": 1.41,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "5c03a020-5d3",
+     "name": "Lime Juice 1 spoon = 5g",
+     "g": 20,
+     "mode": "g",
+     "qty": 20,
+     "label": "20ml",
+     "n": {
+      "kcal": 5,
+      "fat": 0,
+      "satfat": 0,
+      "carbs": 1.68,
+      "sugars": 0.34,
+      "fibre": 0.08,
+      "protein": 0.08,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "6cc6eaaf-1f8",
+     "name": "Salt (1 spoon=15g)",
+     "g": 15,
+     "mode": "g",
+     "qty": 15,
+     "label": "15g",
+     "n": {
+      "kcal": 0,
+      "fat": 0,
+      "satfat": 0,
+      "carbs": 0,
+      "sugars": 0,
+      "fibre": 0,
+      "protein": 0,
+      "salt": 0
+     }
+    },
+    {
+     "ing": "9b1537a5-6fe",
+     "name": "Black Pepper (1 spoon = 6g)",
+     "g": 6,
+     "mode": "g",
+     "qty": 6,
+     "label": "6g",
+     "n": {
+      "kcal": 15.06,
+      "fat": 0.198,
+      "satfat": 0.084,
+      "carbs": 3.834,
+      "sugars": 0.036,
+      "fibre": 1.518,
+      "protein": 0.624,
+      "salt": 0
+     }
+    }
+   ]
+  }
  ]
 }
